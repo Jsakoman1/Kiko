@@ -1,3 +1,6 @@
 .kiko/
 __pycache__/
 *.py[cod]
+.idea/
+out/
+*.iml

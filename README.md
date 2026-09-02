@@ -1,12 +1,16 @@
 # Kiko
 
-Kiko is a learning project for building a tiny AI context notebook in Python.
+Kiko is a guided learning project for building a tiny AI context notebook in
+Python.
 
-The source code is intentionally not implemented yet. We will build it one
-small step at a time while learning Python, architecture, and AI model
-integration foundations.
+The learner writes the source code one checkpoint at a time while Codex teaches
+Python, architecture, and AI-model integration foundations.
 
-Read `KIKO_V0_1_PLAN.md` for the full v0.1 scope and learning path.
+Read `tutor/PROJECT_BRIEF.md` for the product goal and version 0.1 scope.
 
-Read `AgentReadme.md` for the teaching and coding rules.
+Continue from the first unchecked item in `tutor/LEARNING_PLAN.md`.
 
+Read `tutor/AgentReadme.md` for teaching rules and
+`tutor/learning_journal.md` for syntax already introduced.
+
+Public repository: `https://github.com/Jsakoman1/Kiko`

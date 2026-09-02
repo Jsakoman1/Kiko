@@ -28,8 +28,9 @@ For every implementation step:
 5. Give a small implementation example for every new syntax feature. The
    example may be several lines when needed, but it must cover only the current
    idea, not the complete solution.
-6. Add a compact one- or two-line reference entry to `kiko_learning.md` for
-   every new syntax feature; use more detail only for genuinely complex ideas.
+6. Add a compact one- or two-line reference entry to
+   `tutor/learning_journal.md` for every new syntax feature; use more detail
+   only for genuinely complex ideas.
 7. Show a small text diagram when relationships or data flow need visualizing.
 8. Give the user a focused task, acceptance criteria, and exact verification
    command.
@@ -52,6 +53,8 @@ reason has first been explained.
 
 ## Current project state
 
-The source code has intentionally been reset. Read `KIKO_V0_1_PLAN.md` before
-writing code. The first implementation step is not started until the user asks
-to begin it.
+Read `tutor/PROJECT_BRIEF.md` for stable product scope,
+`tutor/LEARNING_PLAN.md` for the current checkpoint, and
+`tutor/learning_journal.md` for concepts already introduced. Keep changing
+progress only in `tutor/LEARNING_PLAN.md` so it cannot become stale in multiple
+files.

@@ -20,7 +20,8 @@ syntax, Java comparison, program logic, architecture impact, and how to verify
 your work. I will not write or edit your source code or give you the complete
 solution. I will show a small implementation example for each new syntax idea,
 then you will write your own version. Before you use a syntax feature for the
-first time, I will add a compact reference entry to `kiko_learning.md`.
+first time, I will add a compact reference entry to
+`tutor/learning_journal.md`.
 
 Every lesson follows this order:
 
@@ -35,9 +36,30 @@ Every lesson follows this order:
 After you complete a step, you can share the code, terminal output, or an error.
 I will review it and help you understand the next correction or improvement.
 
+## Progress checkpoint
+
+- [x] Step 1: Created and ran a basic Python script.
+- [x] Step 2: Added `main()` and the direct-entry check.
+- [x] Step 3: Added command-line argument handling and the `help` command.
+- [x] Step 4: Added the in-memory `context` dictionary and the `show` command.
+- [ ] Step 5: Save and load the context as JSON. **NEXT**
+- [ ] Step 6: Implement `init` and `show` as real Kiko commands.
+- [ ] Step 7: Implement `rule` and `note` with persistent updates.
+- [ ] Step 8: Manually verify v0.1 and review the program line by line.
+
+## Current handoff
+
+- Last verified behavior: `help` and `show` display the expected in-memory data.
+- Next step: Step 5 — save and load the context as JSON.
+- Blockers: None.
+
+Current behavior is intentionally temporary: the mission, rules, and notes are
+created in memory every time the program starts, so they disappear when the
+program exits. Step 5 will give Kiko its first durable state.
+
 ## Syntax journal
 
-`kiko_learning.md` is our short Python syntax journal, not the whole lesson.
+`tutor/learning_journal.md` is our short Python syntax journal, not the whole lesson.
 Simple entries use one or two lines. The lesson itself includes a small,
 concrete implementation example so you can see how the syntax is used.
 
@@ -99,7 +121,7 @@ These are future options, not missing work.
 
 ## Learning steps
 
-### Step 1: A Python script that runs
+### Step 1: A Python script that runs — COMPLETE
 
 You create `kiko.py` and make it display a short welcome message.
 
@@ -117,7 +139,7 @@ python3 kiko.py
 
 prints a welcome message.
 
-### Step 2: Functions and the program entry point
+### Step 2: Functions and the program entry point — COMPLETE
 
 You move the welcome behavior into a `main()` function and call it through the
 standard `if __name__ == "__main__":` pattern.
@@ -130,7 +152,7 @@ Learn:
 
 Done when the behavior stays the same and the structure is understood.
 
-### Step 3: Command-line arguments
+### Step 3: Command-line arguments — COMPLETE
 
 You read a command such as `help` from `sys.argv`.
 
@@ -149,7 +171,7 @@ python3 kiko.py help
 
 prints a command list.
 
-### Step 4: The context data structure
+### Step 4: The context data structure — COMPLETE
 
 You create one in-memory Python dictionary containing a mission, rules, and
 notes.
@@ -162,7 +184,7 @@ Learn:
 
 Done when `show` prints the in-memory context.
 
-### Step 5: Save and load JSON
+### Step 5: Save and load JSON — NEXT
 
 You save the dictionary to `.kiko/state.json`, then load it again on the next
 run.
