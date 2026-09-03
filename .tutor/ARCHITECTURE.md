@@ -6,7 +6,7 @@
   teaching workflow, not an application runtime.
 - Kiko is a small Python learning prototype with `help`, `show`, and a context
   created by a separate state function. It writes and loads JSON project state,
-  and has no model connection.
+  reads one global learner profile field, and has no model connection.
 - Six earlier learning checkpoints were verified and preserved in the learning
   log and global learner state.
 - Local Codex CLI version is `0.152.1` on macOS.

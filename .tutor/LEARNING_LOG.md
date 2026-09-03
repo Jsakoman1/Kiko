@@ -18,6 +18,10 @@
   `.tutor/state.json` with `Path.write_text()`. Help used: focused example.
 - Project Step 3B: Loaded the saved JSON with `json.loads()` and used the saved
   value after it was changed. Help used: focused example.
+- Project Step 4A: Loaded the private global learner profile separately and
+  displayed the learner's previous language. Help used: focused example.
+- Project Step 4B: Selected and displayed only Python concept summaries from
+  the separate global learner state. Help used: guided explanation and example.
 
 These prove completed project steps. The related Python concepts are recorded
 as `assisted`, not independent or reliable.
@@ -33,6 +37,10 @@ as `assisted`, not independent or reliable.
 - The original Kiko Python prototype is preserved as the starting point.
 - The current prototype now has a separate state-creation function.
 - The current prototype now writes and loads a JSON state file.
+- The current prototype now reads global learner state without copying it into
+  project state.
+- The current prototype now selects language-relevant concept summaries without
+  merging global learner state into project state.
 - The old syntax journal was migrated into the global personal reference.
 - The new Project Tutor implementation roadmap starts at Step 1 without
   resetting prior learning.

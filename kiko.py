@@ -34,10 +34,34 @@ def load_context():
         context = create_context()
         save_context(context)
         return context
+    
+def load_learner_state():
+    path = Path.home() / "Library" / "Application Support" / "Project Tutor" / "learner.json"
 
+    if path.exists():
+        text = path.read_text()
+        return json.loads(text)
+    else:
+        return {
+            "profile" : {
+                "previous_languages": []
+            },
+            "concepts": []
+        }
+
+def select_relevant_concepts(learner, language):
+    prefix = f"{language.lower()}:"
+    concepts = learner.get("concepts", [])
+    
+    relevant = []
+    for concept in concepts:
+        if concept["id"].startswith(prefix):
+            relevant.append(concept["id"] + "|" + concept["stage"])
+    return relevant
 
 def main():
     arguments = sys.argv[1:]
+    learner = load_learner_state()
 
     context = load_context()
 
@@ -59,6 +83,8 @@ def main():
             print("Language:", context["project"]["language"])
             print("Help preference:", context["tutor"]["help_preference"])
             print("Current step:", context["tutor"]["current_step"])
+            print("Previous languages:", learner["profile"]["previous_languages"])
+            print("Relevant concepts:", select_relevant_concepts(learner, context["project"]["language"]))
 
 if __name__ == "__main__":
     main()
