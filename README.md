@@ -1,16 +1,22 @@
-# Kiko
+# Kiko / Project Tutor
 
-Kiko is a guided learning project for building a tiny AI context notebook in
-Python.
+Kiko is becoming Project Tutor: a local application that helps people learn
+programming by building real projects themselves.
 
-The learner writes the source code one checkpoint at a time while Codex teaches
-Python, architecture, and AI-model integration foundations.
+The learner writes the application code. Tutor explains, gives progressive
+help, reviews attempts, and uses Codex for expert repository reasoning while
+keeping pedagogy and learning state under Tutor control.
 
-Read `tutor/PROJECT_BRIEF.md` for the product goal and version 0.1 scope.
+The current `kiko.py` is a preserved learning prototype, not the finished
+product. Continue from the first unchecked checkpoint in
+`.tutor/LEARNING_PLAN.md`.
 
-Continue from the first unchecked item in `tutor/LEARNING_PLAN.md`.
+Project documentation:
 
-Read `tutor/AgentReadme.md` for teaching rules and
-`tutor/learning_journal.md` for syntax already introduced.
+- `.tutor/PROJECT_BRIEF.md` — product goal and bounded v0.1
+- `.tutor/ARCHITECTURE.md` — chosen components, state, integrations, and risks
+- `.tutor/LEARNING_PLAN.md` — roadmap, progress, and current handoff
+- `.tutor/LEARNING_LOG.md` — evidence from learner-authored work
+- `.tutor/AgentReadme.md` — Kiko-specific tutoring rules
 
 Public repository: `https://github.com/Jsakoman1/Kiko`

@@ -1,0 +1,18 @@
+{
+  "mission": "AIS",
+  "rules": [
+    "Keep the code simple"
+  ],
+  "notes": [
+    "The project uses Python"
+  ],
+  "version": 1,
+  "project": {
+    "name": "Kiko",
+    "language": "Python"
+  },
+  "tutor": {
+    "help_preference": "guided",
+    "current_step": 2
+  }
+}
