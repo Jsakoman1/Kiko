@@ -1,11 +1,15 @@
 import unittest
 
 from kiko.cli import (
+    FeedbackStateError,
     LearnerStateError,
     ProjectStateError,
+    SessionStateError,
     create_context,
     validate_learner_state,
+    validate_feedback_state,
     validate_project_state,
+    validate_session_state,
 )
 
 
@@ -19,6 +23,21 @@ def create_learner_state():
             "current_learning_goals": ["Python"],
         },
         "concepts": [],
+    }
+
+
+def create_feedback_state():
+    return {
+        "schema_version": 1,
+        "candidates": [
+            {
+                "category": "lesson-clarity",
+                "violated_contract": "Explain new syntax before use",
+                "observation": "A syntax explanation was missing",
+                "proposed_improvement": "Add a syntax preflight",
+                "regression_target": "Reject lessons with undeclared syntax",
+            }
+        ],
     }
 
 class ProjectStateRootTests(unittest.TestCase):
@@ -126,4 +145,126 @@ class LearnerStateTests(unittest.TestCase):
 
         with self.assertRaises(LearnerStateError):
             validate_learner_state(state)
+
+
+class SessionStateTests(unittest.TestCase):
+    def test_accepts_empty_session(self):
+        state = {"schema_version": 1}
+
+        result = validate_session_state(state)
+
+        self.assertEqual(result, state)
+
+    def test_accepts_identified_session(self):
+        state = {
+            "schema_version": 1,
+            "provider": "codex-app-server",
+            "thread_id": "thread-123",
+        }
+
+        result = validate_session_state(state)
+
+        self.assertEqual(result, state)
+
+    def test_accepts_session_without_thread_id(self):
+        state = {"schema_version": 1, "provider": "codex-app-server"}
+
+        result = validate_session_state(state)
+
+        self.assertEqual(result, state)
+
+    def test_rejects_project_state_fields(self):
+        with self.assertRaises(SessionStateError):
+            validate_session_state(create_context())
+
+    def test_rejects_learner_state_fields(self):
+        with self.assertRaises(SessionStateError):
+            validate_session_state(create_learner_state())
+
+    def test_rejects_wrong_provider_type(self):
+        state = {"schema_version": 1, "provider": 42}
+
+        with self.assertRaises(SessionStateError):
+            validate_session_state(state)
+
+    def test_rejects_wrong_thread_id_type(self):
+        state = {"schema_version": 1, "thread_id": []}
+
+        with self.assertRaises(SessionStateError):
+            validate_session_state(state)
+
+    def test_rejects_future_schema_version(self):
+        state = {"schema_version": 2}
+
+        with self.assertRaises(SessionStateError):
+            validate_session_state(state)
+
+
+class FeedbackStateTests(unittest.TestCase):
+    def test_accepts_empty_feedback_state(self):
+        state = {"schema_version": 1, "candidates": []}
+
+        result = validate_feedback_state(state)
+
+        self.assertEqual(result, state)
+
+    def test_accepts_sanitized_feedback_candidate(self):
+        state = create_feedback_state()
+
+        result = validate_feedback_state(state)
+
+        self.assertEqual(result, state)
+
+    def test_rejects_missing_candidate_field(self):
+        state = create_feedback_state()
+        state["candidates"][0].pop("observation")
+
+        with self.assertRaises(FeedbackStateError):
+            validate_feedback_state(state)
+
+    def test_rejects_wrong_candidate_field_type(self):
+        state = create_feedback_state()
+        state["candidates"][0]["category"] = []
+
+        with self.assertRaises(FeedbackStateError):
+            validate_feedback_state(state)
+
+    def test_rejects_raw_content_field(self):
+        state = create_feedback_state()
+        state["candidates"][0]["raw_conversation"] = "private transcript"
+
+        with self.assertRaises(FeedbackStateError):
+            validate_feedback_state(state)
+
+    def test_rejects_project_state_shape(self):
+        with self.assertRaises(FeedbackStateError):
+            validate_feedback_state(create_context())
+
+    def test_rejects_learner_state_shape(self):
+        with self.assertRaises(FeedbackStateError):
+            validate_feedback_state(create_learner_state())
+
+    def test_rejects_session_state_shape(self):
+        session_state = {"schema_version": 1, "provider": "codex-app-server"}
+
+        with self.assertRaises(FeedbackStateError):
+            validate_feedback_state(session_state)
+
+    def test_rejects_future_schema_version(self):
+        state = {"schema_version": 2, "candidates": []}
+
+        with self.assertRaises(FeedbackStateError):
+            validate_feedback_state(state)
+
+    def test_invalid_feedback_does_not_affect_other_state_validators(self):
+        invalid_feedback = create_feedback_state()
+        invalid_feedback["candidates"][0]["source_code"] = "private source"
+
+        with self.assertRaises(FeedbackStateError):
+            validate_feedback_state(invalid_feedback)
+
+        project_state = create_context()
+        learner_state = create_learner_state()
+        self.assertEqual(validate_project_state(project_state), project_state)
+        self.assertEqual(validate_learner_state(learner_state), learner_state)
         

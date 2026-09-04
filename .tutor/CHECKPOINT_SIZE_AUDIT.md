@@ -106,8 +106,6 @@ completed row while preserving the historical original-checkpoint audit above.
 
 | Final checkpoint | Kind | Single learning focus | Bounded new concepts/syntax | Exact primary verification | Verdict |
 | --- | --- | --- | --- | --- | --- |
-| `KIKO-015D` | implementation | Validate the session-state contract | Optional session fields and ephemeral-state ownership. | `.venv/bin/python -m unittest tests.test_state_contracts.SessionStateTests -v` | ready |
-| `KIKO-015E` | implementation | Validate the Tutor-feedback-state contract | Feedback-candidate field allowlist at the state boundary. | `.venv/bin/python -m unittest tests.test_state_contracts.FeedbackStateTests -v` | ready |
 | `KIKO-016` | implementation | Write state through atomic replacement | Temporary files, flush/close ordering, and atomic `Path.replace`. | `.venv/bin/python -m unittest tests.test_state_persistence.AtomicWriteTests -v` | ready |
 | `KIKO-016A` | implementation | Preserve a recoverable state backup | Backup naming, copy semantics, and backup validation. | `.venv/bin/python -m unittest tests.test_state_persistence.BackupTests -v` | ready |
 | `KIKO-016B` | implementation | Restore a validated state backup | Backup restore decision and restore receipt. | `.venv/bin/python -m unittest tests.test_state_persistence.RestoreBackupTests -v` | ready |

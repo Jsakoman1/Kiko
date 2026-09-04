@@ -24,6 +24,12 @@ Before every checkpoint lesson or implementation turn, read its row in
 `pair-programmed` or `agent-delegated` mode, source edits require the mode's
 bounded workflow and never count as learner evidence by themselves.
 
+For `agent-delegated`, a request to continue starts the full checkpoint preview,
+not implementation. Show a human user-value Intro, the problem, success
+conditions, syntax/concepts, design, bounded implementation proposal, reuse
+decisions, and verification, then wait for a separate explicit learner `OK`
+before editing source.
+
 At every completion handoff, reconcile all pending-only companion tables:
 remove the completed checkpoint from the final-readiness section of
 `CHECKPOINT_SIZE_AUDIT.md` and from `EXECUTION_MODES.md`, update mode totals,

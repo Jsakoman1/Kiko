@@ -66,18 +66,28 @@ checkpoint status.
 
 Show the shared progress header.
 
-### 2. Problem to solve
+### 2. Intro
 
-Explain the missing product behavior first. State why it matters to the user and
-where it fits in Kiko's architecture. Do not begin with syntax or replacement
-code.
+In two to four natural, jargon-free sentences, explain the useful Kiko
+capability this checkpoint moves toward. State who benefits, what they will be
+able to do, where it appears in the real product flow, and why that is useful.
+Never assume the checkpoint or feature name makes its purpose obvious.
 
-### 3. Done when
+The Intro describes the desired user experience. The next section narrows that
+vision into the specific missing technical behavior.
+
+### 3. Problem to solve
+
+Explain the specific missing product behavior and where it fits in Kiko's
+architecture. Do not begin with syntax, replacement code, or a repetition of
+the Intro.
+
+### 4. Done when
 
 State the observable success conditions and the important boundary or failure
 case for this checkpoint.
 
-### 4. Syntax preflight
+### 5. Syntax preflight
 
 Always show:
 
@@ -129,32 +139,35 @@ Start with a small unrelated example. Do not give an unexplained finished
 configuration and expect the learner to copy it. Do not teach format features
 that the current Kiko checkpoint does not use.
 
-### 5. Mental model and code flow
+### 6. Mental model and code flow
 
 Explain which values move between which functions, who owns each responsibility,
 and which states remain separate. Explain the relevant code shape without giving
 the complete Kiko solution. Compare with Java only when it shortens the learner's
 path to understanding.
 
-### 6. Small example
+### 7. Small example
 
 Show a minimal unrelated example. Explain the lines containing new syntax. This
 section may be omitted only when no new concept is introduced and the personal
 reference already provides a sufficient example.
 
-### 7. Your task
+### 8. Your task
 
 Give exactly one bounded checkpoint task. In `learner-owned` mode, name the
 learner's source change without supplying the complete solution. In hybrid
 modes, state the learner/agent portions or the delegated implementation and
 learner-review handoff defined by `EXECUTION_MODES.md`.
+For `agent-delegated`, describe the exact bounded implementation proposal and
+stop for a separate explicit learner approval; do not change source during the
+preview interaction.
 
-### 8. Verification
+### 9. Verification
 
 Give the exact command or visible action, expected successful behavior, and one
 safe edge-case check when relevant.
 
-### 9. Stop point
+### 10. Stop point
 
 State what the learner should send back: code, output, or a review request. Stop
 before introducing another task.
@@ -244,6 +257,7 @@ interaction_type
 checkpoint: id, title, status, last_verified
 execution_mode
 purpose
+intro
 problem
 why_it_matters
 success_conditions[]
@@ -276,6 +290,8 @@ remove, or reinterpret pedagogical decisions.
 - Execution mode matches `EXECUTION_MODES.md` and the response respects its
   authorship/evidence boundary.
 - Required fields are present and ordered.
+- A new-checkpoint Intro explains concrete user/product value in natural
+  language before the technical problem.
 - A new checkpoint explains the problem and product reason before syntax.
 - Every construct used in examples and tasks is known or explained first.
 - Every configuration section, field, value type, and Kiko mapping is explained
@@ -283,6 +299,8 @@ remove, or reinterpret pedagogical decisions.
 - Only relevant known syntax is listed.
 - The response contains one bounded action/handoff and exact verification that
   respects the active execution mode.
+- Every agent-delegated source edit has a complete checkpoint preview followed
+  by a separate explicit learner approval.
 - A materially repeated pattern was offered as a reusable refactor or explicitly
   deferred with a scope reason.
 - No unverified progress or competence update is claimed.

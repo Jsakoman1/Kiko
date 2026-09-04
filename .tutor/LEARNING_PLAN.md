@@ -16,11 +16,11 @@ Development authorship and delegation modes live separately in
 
 ## Current handoff
 
-- Active checkpoint: `KIKO-015D` — Validate the session-state contract.
+- Active checkpoint: `KIKO-016` — Write state through atomic replacement.
 - Status: in progress.
-- Last verified: `KIKO-015C` — added a separate versioned learner-state
-  profile/concepts validator that rejects malformed and project-state shapes
-  while preserving unknown non-conflicting fields.
+- Last verified: `KIKO-015E` — added a separate versioned Tutor-feedback-state
+  validator with a strict sanitized-candidate allowlist and state-owner
+  isolation.
 - Current product truth: Kiko is an editable local Python package with a stable
   `.venv/bin/kiko` command. Its `show` behavior reads separate project, learner,
   and reference sources and displays `runtime_checkpoint: not-initialized` as
@@ -30,17 +30,21 @@ Development authorship and delegation modes live separately in
   default state through an injected path; isolated loading tests also prove that
   invalid saved input remains unchanged. Learner state now has its own pure
   owner-specific validator and reusable typed-field checks, without coupling it
-  to project-state fields.
+  to project-state fields. Ephemeral session state now accepts empty or
+  identified sessions while rejecting project, learner, wrong-type, and future-
+  version shapes. Tutor-feedback state now accepts only empty or explicitly
+  shaped sanitized candidates and rejects raw-content, wrong-owner, wrong-type,
+  and future-version data.
 - Development progress authority: this file. Runtime project state separately
   owns `runtime_checkpoint` in `.tutor/state.json`.
 - Planning system: idea discovery, readiness, candidate critique, lesson
   contract, and dogfood feedback systems are adopted.
 - Future-checkpoint readiness: all remaining accepted checkpoints retain their
-  individual post-split lesson dry-run result; KIKO-015D is now active.
-- Hybrid execution: accepted for all pending work; active KIKO-015D is
-  `agent-delegated`. Agent-written work may advance verified product progress but
+  individual post-split lesson dry-run result; KIKO-016 is now active.
+- Hybrid execution: accepted for all pending work; active KIKO-016 is
+  `learner-owned`. Agent-written work may advance verified product progress but
   never counts as learner competence by itself.
-- Blockers: none for `KIKO-015D`.
+- Blockers: none for `KIKO-016`.
 
 ## Release path
 
@@ -82,9 +86,9 @@ Development authorship and delegation modes live separately in
 - [x] [KIKO-015A — Validate project-state required fields and types](checkpoints/02_CORE_FOUNDATION.md#kiko-015a)
 - [x] [KIKO-015B — Enforce the project-state contract during loading](checkpoints/02_CORE_FOUNDATION.md#kiko-015b)
 - [x] [KIKO-015C — Validate the learner-state contract](checkpoints/02_CORE_FOUNDATION.md#kiko-015c)
-- [ ] [KIKO-015D — Validate the session-state contract](checkpoints/02_CORE_FOUNDATION.md#kiko-015d) **NEXT**
-- [ ] [KIKO-015E — Validate the Tutor-feedback-state contract](checkpoints/02_CORE_FOUNDATION.md#kiko-015e)
-- [ ] [KIKO-016 — Write state through atomic replacement](checkpoints/02_CORE_FOUNDATION.md#kiko-016)
+- [x] [KIKO-015D — Validate the session-state contract](checkpoints/02_CORE_FOUNDATION.md#kiko-015d)
+- [x] [KIKO-015E — Validate the Tutor-feedback-state contract](checkpoints/02_CORE_FOUNDATION.md#kiko-015e)
+- [ ] [KIKO-016 — Write state through atomic replacement](checkpoints/02_CORE_FOUNDATION.md#kiko-016) **NEXT**
 - [ ] [KIKO-016A — Preserve a recoverable state backup](checkpoints/02_CORE_FOUNDATION.md#kiko-016a)
 - [ ] [KIKO-016B — Restore a validated state backup](checkpoints/02_CORE_FOUNDATION.md#kiko-016b)
 - [ ] [KIKO-016C — Migrate a supported state schema version](checkpoints/02_CORE_FOUNDATION.md#kiko-016c)

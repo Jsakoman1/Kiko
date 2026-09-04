@@ -74,35 +74,75 @@ class ProjectStateError(Exception):
 class LearnerStateError(Exception):
     pass
 
-def require_typed_field(container, field, expected_type, error_type):
+class SessionStateError(Exception):
+    pass
+
+class FeedbackStateError(Exception):
+    pass
+
+def require_typed_field(container, field, expected_type, error_type, message=None):
     value = container.get(field)
     if not isinstance(value, expected_type):
-        raise error_type(f"Invalid field: {field}")
+        raise error_type(message or f"Invalid field: {field}")
     return value
+
+def require_optional_typed_field(container, field, expected_type, error_type):
+    if field not in container:
+        return None
+    return require_typed_field(container, field, expected_type, error_type)
+
+def reject_unknown_fields(container, allowed_fields, error_type):
+    for field in container:
+        if field not in allowed_fields:
+            raise error_type(f"Unexpected field: {field}")
 
 def validate_project_state(state):
     if not isinstance(state, dict):
         raise ProjectStateError("State is not a dictionary!")
     if state.get("version") != 1:
         raise ProjectStateError("State version is not 1")
-    if not isinstance(state.get("mission"), str):
-        raise ProjectStateError("State Mission is not a String")
-    if not isinstance(state.get("rules"), list):
-        raise ProjectStateError("State Rules is not a list")
-    if not isinstance(state.get("notes"), list):
-        raise ProjectStateError("State notes is not a list!")
-    if not isinstance(state.get("project"), dict):
-        raise ProjectStateError("Project is not a dictionary!")
-    if not isinstance(state["project"].get("name"), str):
-        raise ProjectStateError("Project name is not a String!")
-    if not isinstance(state["project"].get("language"), str):
-        raise ProjectStateError("Project language is not a String!")
-    if not isinstance(state.get("tutor"), dict):
-        raise ProjectStateError("State Tutor is not a dictionary!")
-    if not isinstance(state["tutor"].get("help_preference"), str):
-        raise ProjectStateError("Project Tutor Help-reference is not a String!")
-    if not isinstance(state["tutor"].get("runtime_checkpoint"), str):
-        raise ProjectStateError("Project Tutor Runtime-checkpoint is not a String!")
+
+    require_typed_field(
+        state, "mission", str, ProjectStateError, "State Mission is not a String"
+    )
+    require_typed_field(
+        state, "rules", list, ProjectStateError, "State Rules is not a list"
+    )
+    require_typed_field(
+        state, "notes", list, ProjectStateError, "State notes is not a list!"
+    )
+
+    project = require_typed_field(
+        state, "project", dict, ProjectStateError, "Project is not a dictionary!"
+    )
+    require_typed_field(
+        project, "name", str, ProjectStateError, "Project name is not a String!"
+    )
+    require_typed_field(
+        project,
+        "language",
+        str,
+        ProjectStateError,
+        "Project language is not a String!",
+    )
+
+    tutor = require_typed_field(
+        state, "tutor", dict, ProjectStateError, "State Tutor is not a dictionary!"
+    )
+    require_typed_field(
+        tutor,
+        "help_preference",
+        str,
+        ProjectStateError,
+        "Project Tutor Help-reference is not a String!",
+    )
+    require_typed_field(
+        tutor,
+        "runtime_checkpoint",
+        str,
+        ProjectStateError,
+        "Project Tutor Runtime-checkpoint is not a String!",
+    )
 
     return state
 
@@ -118,6 +158,54 @@ def validate_learner_state(state):
     require_typed_field(profile, "previous_languages", list, LearnerStateError)
     require_typed_field(profile, "current_learning_goals", list, LearnerStateError)
     require_typed_field(state, "concepts", list, LearnerStateError)
+
+    return state
+
+def validate_session_state(state):
+    if not isinstance(state, dict):
+        raise SessionStateError("Session state is not a dictionary")
+    if state.get("schema_version") != 1:
+        raise SessionStateError("Session state schema version is not 1")
+
+    allowed_fields = {"schema_version", "provider", "thread_id"}
+    reject_unknown_fields(state, allowed_fields, SessionStateError)
+
+    require_optional_typed_field(state, "provider", str, SessionStateError)
+    require_optional_typed_field(state, "thread_id", str, SessionStateError)
+
+    return state
+
+def validate_feedback_state(state):
+    if not isinstance(state, dict):
+        raise FeedbackStateError("Feedback state is not a dictionary")
+    if state.get("schema_version") != 1:
+        raise FeedbackStateError("Feedback state schema version is not 1")
+
+    reject_unknown_fields(
+        state,
+        {"schema_version", "candidates"},
+        FeedbackStateError,
+    )
+    candidates = require_typed_field(
+        state,
+        "candidates",
+        list,
+        FeedbackStateError,
+    )
+    candidate_fields = {
+        "category",
+        "violated_contract",
+        "observation",
+        "proposed_improvement",
+        "regression_target",
+    }
+
+    for candidate in candidates:
+        if not isinstance(candidate, dict):
+            raise FeedbackStateError("Feedback candidate is not a dictionary")
+        reject_unknown_fields(candidate, candidate_fields, FeedbackStateError)
+        for field in candidate_fields:
+            require_typed_field(candidate, field, str, FeedbackStateError)
 
     return state
 

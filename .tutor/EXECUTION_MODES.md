@@ -21,8 +21,9 @@ visible and must not retroactively overstate competence.
   design. The review records which parts were learner-authored.
 - `agent-delegated`: Codex may implement the bounded checkpoint because it is
   repetitive, integration glue, or scaffolding after a representative pattern.
-  It must show the plan/diff, run exact verification, and hand the code back for
-  learner review.
+  It must first show the complete checkpoint preview and receive a separate
+  explicit learner approval, then show the diff, run exact verification, and
+  hand the code back for learner review.
 - `acceptance-only`: no new substantive product behavior should be authored.
   Codex may prepare commands/evidence, but the learner runs or witnesses the
   scenario and owns the accept/reject decision.
@@ -31,6 +32,8 @@ visible and must not retroactively overstate competence.
 
 - Agent-written code can complete product progress after verification, but is
   not evidence of learner competence.
+- Plan-level mode acceptance does not replace the per-checkpoint preview and
+  explicit approval required before `agent-delegated` source edits.
 - `pair-programmed` evidence records only the behavior the learner actually
   explained, changed, or debugged.
 - `agent-delegated` work becomes learning evidence only after a separate
@@ -47,16 +50,14 @@ visible and must not retroactively overstate competence.
 
 - Learner-owned: 38
 - Pair-programmed: 45
-- Agent-delegated: 53
+- Agent-delegated: 51
 - Acceptance-only: 11
-- Total pending: 147
+- Total pending: 145
 
 ## Pending checkpoint assignments
 
 | Checkpoint | Title | Mode | Reason |
 | --- | --- | --- | --- |
-| `KIKO-015D` | Validate the session-state contract | `agent-delegated` | Repetitive variant, integration glue, or build/UI scaffolding after its core pattern; agent may implement the bounded checkpoint. |
-| `KIKO-015E` | Validate the Tutor-feedback-state contract | `agent-delegated` | Repetitive variant, integration glue, or build/UI scaffolding after its core pattern; agent may implement the bounded checkpoint. |
 | `KIKO-016` | Write state through atomic replacement | `learner-owned` | First representative pattern or central product policy; learner writes the implementation. |
 | `KIKO-016A` | Preserve a recoverable state backup | `pair-programmed` | Risky state, provider, security, or cross-boundary integration; learner and agent implement/review together. |
 | `KIKO-016B` | Restore a validated state backup | `pair-programmed` | Risky state, provider, security, or cross-boundary integration; learner and agent implement/review together. |

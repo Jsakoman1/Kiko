@@ -447,6 +447,58 @@ reasoning, secrets, full prompts, or source-code copies.
 - Project status: implemented
 - Runtime status: not applicable
 
+### DF-019 — Agent delegation skipped the learner's pre-implementation review
+
+- Date: 2026-09-04
+- Observation: KIKO-015D was implemented immediately after a generic continue
+  signal without first presenting its problem, idea, design, proposal, reuse
+  decision, and verification for learner review.
+- Contract/rule: Execution mode changes authorship, not the mandatory
+  new-checkpoint explanation or the learner's checkpoint-specific approval.
+- Scope: learner-specific, Kiko project, reusable shared skill
+- Immediate recovery: Kept KIKO-015E active, acknowledged the skipped gate, and
+  provided the missing KIKO-015D explanation without treating agent code as
+  learner competence.
+- Shared-skill change: Changed agent-delegated continuation into a mandatory
+  preview followed by a separate explicit approval before source edits; updated
+  the hybrid/lesson rules and generated templates.
+- Project change: Added the same gate to Kiko's AgentReadme, execution modes,
+  and lesson specification.
+- Runtime/roadmap change: None; this governs Kiko development workflow and does
+  not change shipped product scope.
+- Regression check: A generic continue signal may render an agent-delegated
+  preview but cannot mutate source; a later explicit approval must proceed to
+  implementation without repeating the preview.
+- User decision: explicitly accepted in the feedback request
+- Skill status: implemented
+- Project status: implemented
+- Runtime status: not applicable
+
+### DF-020 — Checkpoint previews assumed the feature's value was obvious
+
+- Date: 2026-09-04
+- Observation: The KIKO-015E preview described feedback-state mechanics without
+  first giving a human explanation of why users would want to give, retain, and
+  later use Tutor-quality feedback.
+- Contract/rule: Every new checkpoint needs a short user-value Intro before the
+  technical problem; a feature name is not an explanation of purpose.
+- Scope: learner-specific, Kiko project, reusable shared skill, runtime product
+- Immediate recovery: Kept KIKO-015E in unapproved preview state and added a
+  plain-language Intro requirement before revisiting its proposal.
+- Shared-skill change: Added a mandatory two-to-four-sentence Intro to the new-
+  checkpoint contract and generated lesson-spec template.
+- Project change: Added the same field and ordering rule to Kiko's authoritative
+  `LESSON_SPEC.md`.
+- Runtime/roadmap change: KIKO-027 inherits the new canonical `intro` field from
+  `LESSON_SPEC.md`; no new checkpoint or roadmap reorder is required.
+- Regression check: Reject a new-checkpoint interaction whose Intro does not
+  identify user benefit, real product use, and why the capability is valuable
+  before technical details.
+- User decision: explicitly accepted in the Intro request
+- Skill status: implemented
+- Project status: implemented
+- Runtime status: planned in KIKO-027
+
 ## Record template
 
 ### <FEEDBACK_ID> — <SHORT_TITLE>
