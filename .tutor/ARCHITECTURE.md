@@ -4,11 +4,11 @@
 
 - The shared `guided-project-tutor` skill is a working documentation-driven
   teaching workflow, not an application runtime.
-- Kiko is a small Python learning prototype with `help`, `show`, and a context
-  created by a separate state function. It writes and loads JSON project state,
-  reads one global learner profile field, and has no model connection.
-- Six earlier learning checkpoints were verified and preserved in the learning
-  log and global learner state.
+- Kiko is a small Python learning prototype with `help`, `show`, and separate
+  state-loading functions. It writes/loads project JSON, reads global learner
+  profile concepts, and has no model connection.
+- KIKO-001 through KIKO-010 are verified and preserved in the learning log and
+  global learner state; KIKO-011 is next.
 - Local Codex CLI version is `0.152.1` on macOS.
 - A live no-model App Server `initialize` handshake succeeded over `stdio`.
 - JSON Schema and TypeScript bindings can be generated from the installed Codex
@@ -27,6 +27,8 @@ VS Code sidebar (TypeScript)
               v
 Tutor application process (Python)
   Tutor Core
+  idea discovery + plan compiler
+  Tutor-quality feedback classifier
   learner/project state
   pedagogical request composer
   response validator/presenter
@@ -52,6 +54,38 @@ not own pedagogy or duplicate state.
 Owns learner intent, active project step, help level, competence-sensitive
 teaching policy, context selection, response shape, and state updates. It never
 treats model output as verified learner knowledge.
+
+Tutor Core produces one canonical structured interaction matching
+`.tutor/LESSON_SPEC.md`. The CLI and VS Code extension are presenters: they may
+adapt layout to the surface but must not reorder fields, choose help level,
+introduce syntax, advance progress, or reinterpret review evidence.
+
+### Tutor-quality feedback classifier
+
+Receives an explicit unclear/format/help report or a detected contract
+violation, repairs the active interaction, and classifies the issue without
+changing progress or competence. It creates only a sanitized candidate containing
+category, violated contract, short observation, proposed improvement, and
+regression target.
+
+The installed product may keep that candidate in optional local feedback state
+that the user can inspect, export, or delete. It never rewrites installed code,
+the shared skill, or an accepted roadmap. Applying reusable changes remains a
+development and release activity tracked in `.tutor/TUTOR_FEEDBACK.md`.
+
+### Idea discovery and plan compiler
+
+Owns the state machine from natural-language idea through confirmed brief and
+accepted roadmap. It classifies uncertainty, asks only product-defining
+questions, tracks visible assumptions, and enforces a readiness gate before
+Codex may draft a plan.
+
+Planning uses Codex in bounded stages: requirement analysis, candidate plan,
+and completeness critique. Kiko validates structure and traceability between
+stages. A Codex plan is never canonical by itself; blocking ambiguity returns
+to the user, and project Tutor files are written only after separate user
+confirmation of the brief and final plan. The exact contract lives in
+`.tutor/PLANNING_SPEC.md`.
 
 ### VS Code extension
 
@@ -114,11 +148,17 @@ Official reference: `https://learn.chatgpt.com/docs/app-server`
 ~/Library/Application Support/Project Tutor/
   learner.json       private cross-project competence evidence
   REFERENCE.md        personal syntax and pattern reference
+  feedback.json       optional sanitized local Tutor-quality candidates
 
 <project>/.tutor/
   PROJECT_BRIEF.md    stable product goal and scope
   ARCHITECTURE.md     current chosen architecture and boundaries
+  PRODUCT_SPEC.md     user-visible behavior and acceptance journeys
+  PLANNING_SPEC.md    idea discovery and plan-quality contract
+  LESSON_SPEC.md      standard learner-facing interaction contract
+  TUTOR_FEEDBACK.md   development dogfood improvements, not learner evidence
   LEARNING_PLAN.md    only source of roadmap progress and handoff
+  checkpoints/        stable checkpoint contracts without progress checkboxes
   LEARNING_LOG.md     project evidence and recurring learning signals
   AgentReadme.md      project-specific teaching settings
 

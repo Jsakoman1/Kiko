@@ -51,9 +51,46 @@ recognize a learning project
 The same Python Tutor Core must also work through a small standalone CLI so the
 product is not owned by the editor extension.
 
+Version 0.1 is an internal working proof, not the finished product. It answers
+"does the central learning loop work?" before time is spent on packaging,
+onboarding, compatibility, recovery, and release polish.
+
+## Finished local product target
+
+Kiko v1.0 is one local product with two supported surfaces:
+
+- an installable Kiko Core and CLI for scripting, diagnosis, and use without an
+  editor UI
+- a packaged VS Code extension that uses the same local core and does not
+  duplicate Tutor policy
+
+A normal macOS user should be able to install Kiko, open a learning project,
+ask for guided help, submit learner-authored work for read-only review, close
+the tools, and later resume from durable state. Installation must not require
+manually editing source paths or creating a development environment.
+
+The finished product also needs automated tests, state migration and recovery,
+clear dependency and authentication checks, usable error messages, privacy
+controls, versioned release artifacts, upgrade/uninstall instructions, and a
+clean-machine acceptance run. An installable `.vsix` is required; publication
+to a marketplace is a separate external action requiring explicit approval.
+
+When teaching itself is unclear or inconsistent, Kiko must repair the current
+interaction, distinguish Tutor failure from learner difficulty, and let the
+user inspect or export a sanitized local feedback candidate. The installed
+product never rewrites its own code or shared skill automatically.
+
+The canonical user-visible flows and pedagogical quality gates are defined in
+`.tutor/PRODUCT_SPEC.md`. The idea-discovery, ambiguity-resolution, plan
+generation, completeness audit, and plan-approval contract is defined in
+`.tutor/PLANNING_SPEC.md`. Standard learner-facing interaction formats are
+defined in `.tutor/LESSON_SPEC.md`.
+
 ## Required v0.1 behavior
 
 - Create or recognize one `.tutor/` learning project.
+- Resolve product-defining ambiguity before plan generation, validate the plan
+  for coverage and atomicity, and require user acceptance before saving it.
 - Maintain one private global learner profile and personal reference.
 - Maintain a project roadmap, current checkpoint, help preference, and handoff.
 - Distinguish introduced, assisted, independent, and reliable knowledge.
@@ -95,9 +132,18 @@ Weak assumptions and risks:
 Version 0.1 therefore uses conservative competence updates, a small state model,
 read-only Codex behavior, one editor surface, and no second GUI.
 
-## Acceptance
+## v0.1 acceptance
 
 The vertical slice succeeds when a learner can return to a real project, receive
 guidance adapted to prior demonstrated knowledge, implement a small change,
 receive a repository-aware review, and produce durable project and learner
 evidence without Tutor editing the application source.
+
+## v1.0 acceptance
+
+The local product is finished when a new user can install the packaged CLI and
+VS Code extension on a supported macOS system, complete and resume the central
+tutoring loop in a real project, recover safely from common configuration or
+state failures, and uninstall the application with clear control over retained
+learner data. The same release must pass automated unit, integration, protocol,
+and end-to-end checks and document its supported Codex and VS Code versions.
