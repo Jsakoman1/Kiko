@@ -6,7 +6,7 @@
 - Checkpoint kind: implementation
 - Observable outcome: A pure function returns one privacy-safe evidence dictionary.
 - Why it matters: Kiko needs observable learning evidence before it may update competence.
-- Prerequisites: KIKO-015A.
+- Prerequisites: KIKO-015C.
 - Known concepts: Functions, arguments, dictionaries, return values, and unit tests.
 - New concepts and syntax: `date.today().isoformat()` for a stable local date string.
 - Learner task: Build an evidence record from project, checkpoint, action, help, and date values.
@@ -38,7 +38,7 @@
 - Checkpoint kind: implementation
 - Observable outcome: An accepted learner update persists atomically while preserving profile and unrelated concepts.
 - Why it matters: Kiko writes private cross-project state only after verified learner work.
-- Prerequisites: KIKO-016B and KIKO-020.
+- Prerequisites: KIKO-016C and KIKO-020.
 - Known concepts: Validated state, atomic JSON writes, dictionaries, and test paths.
 - New concepts and syntax: Copy-before-update behavior and injected storage paths.
 - Learner task: Persist a provided learner update only after an accepted review decision.
@@ -54,7 +54,7 @@
 - Checkpoint kind: implementation
 - Observable outcome: One genuinely used syntax entry is appended once after accepted work.
 - Why it matters: The reference becomes a memory aid without becoming competence evidence.
-- Prerequisites: KIKO-016B and KIKO-021.
+- Prerequisites: KIKO-016C and KIKO-021.
 - Known concepts: Paths, text I/O, conditions, strings, backups, and isolated tests.
 - New concepts and syntax: Text membership checks and newline-safe append behavior.
 - Learner task: Add a short syntax entry to an injected reference path only when absent.

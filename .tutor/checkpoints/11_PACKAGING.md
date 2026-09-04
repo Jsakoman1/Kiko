@@ -33,20 +33,52 @@
 - Exit condition: Clean and invalid-input build fixtures prove deterministic artifact construction.
 
 <a id="kiko-064a"></a>
-### KIKO-064A — Complete Core signing, notices, and isolated smoke
+### KIKO-064A — Bundle Core licenses and notices
+
+- Checkpoint kind: implementation
+- Observable outcome: Core artifact contains a validated manifest of required dependency licenses and notices.
+- Why it matters: A distributable artifact must identify included software before signing or installation testing.
+- Prerequisites: KIKO-064.
+- Known concepts: Core artifact, dependencies, build manifest, and clean build input.
+- New concepts and syntax: License/notice inventory and notice-manifest validation.
+- Learner task: Generate/bundle the required license and notice files for the Core artifact.
+- Verification: `make verify-core-notices`
+- Expected behavior: Every packaged dependency maps to one bundled notice and no undeclared file appears.
+- Edge case: Missing or mismatched notice blocks release preparation.
+- Not included: Signing, notarization, installation smoke, VSIX, or publication.
+- Exit condition: Complete, missing, mismatched, and unexpected-dependency notice fixtures pass.
+
+<a id="kiko-064b"></a>
+### KIKO-064B — Sign and verify the Core artifact
+
+- Checkpoint kind: implementation
+- Observable outcome: The selected distribution artifact passes the required macOS signature/notarization verification or records why notarization is inapplicable.
+- Why it matters: Users must be able to identify and run the artifact under the supported macOS security model.
+- Prerequisites: KIKO-064A.
+- Known concepts: Core artifact, chosen distribution, release blocking, and clean build inputs.
+- New concepts and syntax: Code-signing identity, signature verification, and notarization status when required.
+- Learner task: Add the chosen signing step and a deterministic verification command.
+- Verification: `make verify-core-signature`
+- Expected behavior: Valid artifact passes; unsigned/modified/wrong-identity artifact fails before release.
+- Edge case: A development-only unsigned build is labeled non-release and cannot enter release output.
+- Not included: CLI smoke, VSIX signing/packaging, or publication.
+- Exit condition: Valid, unsigned, modified, wrong-identity, and applicability fixtures pass.
+
+<a id="kiko-064c"></a>
+### KIKO-064C — Smoke-test the Core artifact in isolation
 
 - Checkpoint kind: integration
-- Observable outcome: Core artifact carries required notices/signing and passes required CLI smoke outside the source tree.
-- Why it matters: A built artifact is not safely distributable until users can identify/trust/run it.
-- Prerequisites: KIKO-064.
-- Known concepts: Core artifact, doctor/help workflows, selected distribution, and clean profile.
-- New concepts and syntax: License notice bundle and signing/notarization verification when required.
-- Learner task: Add required notices/signing step and run the artifact through the isolated command matrix.
-- Verification: Run `make prepare-core-release`, then `make smoke-core-artifact`.
-- Expected behavior: Verification accepts signature/notices and all required CLI commands run outside source tree.
-- Edge case: Missing Codex reaches doctor/demo guidance; invalid signature or notice manifest blocks release.
+- Observable outcome: Signed/noticed Core artifact runs required CLI commands outside the source tree.
+- Why it matters: Build metadata is insufficient until the artifact works without repository imports or a development environment.
+- Prerequisites: KIKO-064B.
+- Known concepts: Core artifact, doctor/help/version workflows, clean profile, and signature/notices verification.
+- New concepts and syntax: Isolated artifact smoke matrix.
+- Learner task: Install/run the artifact in an isolated profile and execute the required CLI command matrix.
+- Verification: `make smoke-core-artifact`
+- Expected behavior: Version/help/doctor/fake status run outside source; no repository path is imported.
+- Edge case: Missing Codex reaches doctor/demo guidance rather than crashing.
 - Not included: VSIX packaging or external publication.
-- Exit condition: Notice, signature/notarization, install, command-smoke, and missing-Codex fixtures pass.
+- Exit condition: Install, version, help, doctor, fake-flow, missing-Codex, and no-source-path fixtures pass.
 
 <a id="kiko-065"></a>
 ### KIKO-065 — Package an installable VS Code VSIX
@@ -54,7 +86,7 @@
 - Checkpoint kind: integration
 - Observable outcome: Clean checkout produces a versioned `.vsix` connected to the packaged Core.
 - Why it matters: The primary user surface must be installable without extension-development mode.
-- Prerequisites: KIKO-064A and KIKO-055.
+- Prerequisites: KIKO-064C and KIKO-055.
 - Known concepts: Extension metadata, Core protocol, compatibility minimums, and extension tests.
 - New concepts and syntax: VSIX packaging, bundled/located Core strategy, and extension release metadata.
 - Learner task: Add package script and install the VSIX into a clean VS Code profile.
@@ -70,7 +102,7 @@
 - Checkpoint kind: integration
 - Observable outcome: One release command produces matching artifacts, manifest, checksums, and notices from a clean tree.
 - Why it matters: Users and maintainers need identifiable, auditable release inputs.
-- Prerequisites: KIKO-064A and KIKO-065.
+- Prerequisites: KIKO-064C and KIKO-065.
 - Known concepts: Artifact builds, versions, clean checkout, and verification gates.
 - New concepts and syntax: Release manifest, checksum generation, and version-consistency check.
 - Learner task: Orchestrate Core/VSIX builds and fail on dirty/inconsistent release metadata.

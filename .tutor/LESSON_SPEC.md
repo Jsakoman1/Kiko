@@ -93,6 +93,24 @@ No example or task may contain an unannounced method, shorthand, import, or
 library call. If another construct becomes necessary, update the preflight
 before using it.
 
+#### Configuration and data-format preflight
+
+When a checkpoint introduces TOML, YAML, JSON/JSON Schema, HTML/XML, SQL, a
+manifest, or another unfamiliar declarative format, explain before the Kiko
+configuration block:
+
+1. what the file controls and which tool/component reads it
+2. its hierarchy: document, section/table/object, key, and value
+3. the punctuation that creates sections and assignments
+4. every value type used in this checkpoint
+5. every Kiko field's owner, type, required/default status, and observable effect
+6. how each value maps to Kiko code, command, path, or behavior
+7. the likely error when a required field or type is wrong
+
+Start with a small unrelated example. Do not give an unexplained finished
+configuration and expect the learner to copy it. Do not teach format features
+that the current Kiko checkpoint does not use.
+
 ### 5. Mental model and code flow
 
 Explain which values move between which functions, who owns each responsibility,
@@ -212,6 +230,10 @@ syntax_preflight:
   known[]
   new[]: syntax, meaning, input_output_or_effect, example, common_mistake
   not_used_yet[]
+format_preflight:
+  file, purpose, consumer
+  hierarchy[]: construct, punctuation, meaning
+  fields[]: name, type, required_or_default, effect, project_mapping
 mental_model
 small_example
 task
@@ -233,6 +255,8 @@ remove, or reinterpret pedagogical decisions.
 - Required fields are present and ordered.
 - A new checkpoint explains the problem and product reason before syntax.
 - Every construct used in examples and tasks is known or explained first.
+- Every configuration section, field, value type, and Kiko mapping is explained
+  before use.
 - Only relevant known syntax is listed.
 - The learner receives one owned action and exact verification.
 - No unverified progress or competence update is claimed.

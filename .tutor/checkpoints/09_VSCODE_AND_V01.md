@@ -1,20 +1,36 @@
 # Phase 9 — Thin VS Code Extension and v0.1 Proof
 
 <a id="kiko-051"></a>
-### KIKO-051 — Create the TypeScript extension shell
+### KIKO-051 — Create the TypeScript extension development environment
 
 - Checkpoint kind: implementation
-- Observable outcome: VS Code activates one Kiko sidebar without containing Tutor policy.
-- Why it matters: The primary editor surface must start thin and remain replaceable.
-- Prerequisites: KIKO-017A and KIKO-046.
-- Known concepts: CLI/process boundary and UI responsibility from the architecture.
-- New concepts and syntax: TypeScript extension activation, contribution points, commands, and view provider.
-- Learner task: Scaffold the extension and show a static connection-status view.
-- Verification: Run `npm --prefix extension run check`, then `npm --prefix extension test`.
-- Expected behavior: Type-check/tests pass and the extension-host smoke fixture activates the Kiko view.
-- Edge case: Activation without an open workspace shows setup state instead of crashing.
-- Not included: Python process startup, chat rendering, or Tutor decisions in TypeScript.
-- Exit condition: The minimal extension activates only through documented Kiko entry points.
+- Observable outcome: An isolated `extension/` TypeScript project type-checks and runs one empty test command.
+- Why it matters: TypeScript is a new language/toolchain and must be learned before VS Code lifecycle code is added.
+- Prerequisites: KIKO-025A and KIKO-046.
+- Known concepts: Project-local environments, package metadata, configuration-format preflight, and test commands.
+- New concepts and syntax: `package.json`, `tsconfig.json`, npm development dependencies/scripts, and TypeScript compiler check.
+- Learner task: Create the minimal extension development configuration without registering or activating Kiko yet.
+- Verification: Run `npm --prefix extension install`, then `npm --prefix extension run check` and `npm --prefix extension test`.
+- Expected behavior: Dependencies install locally, TypeScript configuration is valid, and the empty test foundation passes.
+- Edge case: Generated `node_modules/` and build output remain ignored by Git.
+- Not included: VS Code activation, contribution points, sidebar provider, Core process, or Tutor rendering.
+- Exit condition: A clean local TypeScript check/test cycle passes without editor behavior.
+
+<a id="kiko-051a"></a>
+### KIKO-051A — Activate a static Kiko sidebar
+
+- Checkpoint kind: implementation
+- Observable outcome: VS Code activates one static Kiko sidebar without containing Tutor policy.
+- Why it matters: The first editor behavior should prove the extension lifecycle and thin UI boundary only.
+- Prerequisites: KIKO-017C and KIKO-051.
+- Known concepts: TypeScript project, CLI/process boundary, and UI responsibility from the architecture.
+- New concepts and syntax: Extension activation, contribution points, command registration, and view provider lifecycle.
+- Learner task: Register the Kiko view and show one static connection-status message.
+- Verification: Run `npm --prefix extension run check`, then `npm --prefix extension test -- --runInBand activation`.
+- Expected behavior: The extension-host fixture activates the Kiko view through documented entry points.
+- Edge case: Activation without an open workspace shows a static setup message instead of crashing.
+- Not included: Python process startup, interactive actions, chat rendering, or Tutor decisions in TypeScript.
+- Exit condition: Static activation/view fixtures pass and TypeScript contains no pedagogical policy.
 
 <a id="kiko-052"></a>
 ### KIKO-052 — Start and stop Core from the extension
@@ -22,7 +38,7 @@
 - Checkpoint kind: implementation
 - Observable outcome: Extension starts one configured Core child process and disposes it on extension shutdown.
 - Why it matters: The UI must speak the stable contract defined before its implementation.
-- Prerequisites: KIKO-017A, KIKO-039, KIKO-046, and KIKO-051.
+- Prerequisites: KIKO-017C, KIKO-039, KIKO-046, and KIKO-051A.
 - Known concepts: Process ownership, configured commands, extension activation, and controlled errors.
 - New concepts and syntax: Node child process spawn and VS Code disposable lifecycle.
 - Learner task: Start/stop a scripted fake Core without sending protocol messages.
@@ -38,7 +54,7 @@
 - Checkpoint kind: implementation
 - Observable outcome: Extension sends one versioned JSONL request and resolves the matching result by request ID.
 - Why it matters: UI actions need a transport that remains independent from Python internals.
-- Prerequisites: KIKO-017A and KIKO-052.
+- Prerequisites: KIKO-017C and KIKO-052.
 - Known concepts: Core process, JSONL framing, request IDs, and TypeScript promises.
 - New concepts and syntax: Stream line buffering and pending-promise map.
 - Learner task: Implement one status request/result round trip against fake Core.
@@ -70,7 +86,7 @@
 - Checkpoint kind: implementation
 - Observable outcome: Setup, Ready, and Working states render from Core status/progress data.
 - Why it matters: Users need predictable orientation and recovery without duplicated pedagogy.
-- Prerequisites: KIKO-027C, KIKO-051, and KIKO-052B.
+- Prerequisites: KIKO-027F, KIKO-051A, and KIKO-052B.
 - Known concepts: Canonical TutorInteraction and explicit UI states.
 - New concepts and syntax: Webview state rendering, safe text escaping, and initial focus management.
 - Learner task: Render setup, ready, and working fixtures without adding teaching policy.
@@ -150,7 +166,7 @@
 - Checkpoint kind: integration
 - Observable outcome: Sidebar moves through discovery, brief approval, plan review, and accepted project creation via Core.
 - Why it matters: New users need the validated plan workflow without duplicating it in TypeScript.
-- Prerequisites: KIKO-049B, KIKO-053A, and KIKO-054A.
+- Prerequisites: KIKO-049C, KIKO-053A, and KIKO-054A.
 - Known concepts: CLI planning flow, setup/response views, protocol actions, and separate acceptance.
 - New concepts and syntax: Multi-turn planning view state correlation.
 - Learner task: Render and submit the next Core-provided discovery/approval action one stage at a time.
@@ -161,20 +177,36 @@
 - Exit condition: Discovery, brief, plan, accept, revise, cancel, and resume fixtures pass.
 
 <a id="kiko-054c"></a>
-### KIKO-054C — Connect cancel, retry, and unclear-feedback actions
+### KIKO-054C — Connect cancel and retry actions
 
 - Checkpoint kind: integration
-- Observable outcome: Support actions terminate/retry one request or report unclear teaching through Core-owned policy.
-- Why it matters: Users need recovery and feedback without duplicate requests or competence changes.
-- Prerequisites: KIKO-050, KIKO-052B, KIKO-053B, and KIKO-054B.
+- Observable outcome: Cancel/retry actions terminate or restart one request through Core-owned lifecycle policy.
+- Why it matters: Users need request recovery without duplicate turns or processes.
+- Prerequisites: KIKO-052B, KIKO-053B, and KIKO-054B.
 - Known concepts: Terminal requests, recoverable views, feedback flow, and Core ownership.
-- New concepts and syntax: Cancel/retry correlation and feedback candidate controls.
-- Learner task: Connect cancel, one safe retry, and “This was unclear” to their Core messages.
-- Verification: `npm --prefix extension test -- --runInBand support-actions`
-- Expected behavior: Cancel/retry resolve once; feedback repairs response and offers keep/edit/export/discard.
-- Edge case: Repeated click cannot duplicate turn, process, evidence, or feedback candidate.
+- New concepts and syntax: Cancel/retry action correlation.
+- Learner task: Connect cancel and one Core-approved retry to their protocol messages.
+- Verification: `npm --prefix extension test -- --runInBand cancel-retry-actions`
+- Expected behavior: Cancel/retry resolve once and return the documented view state.
+- Edge case: Repeated click cannot duplicate a turn, process, or terminal result.
+- Not included: Feedback actions, automatic repair, or telemetry.
+- Exit condition: Cancel, retry, duplicate-click, late-result, and process-count fixtures pass.
+
+<a id="kiko-054d"></a>
+### KIKO-054D — Connect the unclear-feedback action
+
+- Checkpoint kind: integration
+- Observable outcome: “This was unclear” sends one feedback request to Core and renders its repaired interaction plus candidate controls.
+- Why it matters: Tutor-quality feedback must remain separate from request cancellation and learner competence.
+- Prerequisites: KIKO-050B, KIKO-053B, and KIKO-054C.
+- Known concepts: Feedback repair/candidates, protocol actions, response views, and Core ownership.
+- New concepts and syntax: Feedback-action correlation and candidate-control rendering.
+- Learner task: Connect one unclear-feedback action without implementing classification or repair in TypeScript.
+- Verification: `npm --prefix extension test -- --runInBand feedback-action`
+- Expected behavior: Core repair renders and keep/edit/export/discard controls map back to Core messages.
+- Edge case: Repeated click cannot duplicate feedback candidates or change competence/progress.
 - Not included: Automatic skill/code mutation or remote telemetry.
-- Exit condition: Cancel, retry, feedback, duplicate-click, and unchanged-competence fixtures pass.
+- Exit condition: Repair, controls, duplicate-click, and unchanged-state fixtures pass.
 
 <a id="kiko-055"></a>
 ### KIKO-055 — Test the extension against a fake Core
@@ -182,7 +214,7 @@
 - Checkpoint kind: integration
 - Observable outcome: Extension-host tests prove protocol, rendering, accessibility basics, and failure states without Codex.
 - Why it matters: Editor behavior must be deterministic in CI and independent of live model variability.
-- Prerequisites: KIKO-052B, KIKO-053B, and KIKO-054C.
+- Prerequisites: KIKO-052B, KIKO-053B, and KIKO-054D.
 - Known concepts: Test doubles, fixtures, protocol messages, and UI state assertions.
 - New concepts and syntax: VS Code extension-host integration harness and fixture process control.
 - Learner task: Add one end-to-end fake-Core scenario from activation through response and shutdown.
@@ -198,7 +230,7 @@
 - Checkpoint kind: acceptance
 - Observable outcome: One real project completes discovery/help/edit/review/evidence/resume through CLI and sidebar.
 - Why it matters: It validates the central product hypothesis before release polish and distribution work.
-- Prerequisites: KIKO-043, KIKO-044B, KIKO-048A, KIKO-049B, and KIKO-055.
+- Prerequisites: KIKO-043, KIKO-044B, KIKO-048A, KIKO-049C, and KIKO-055.
 - Known concepts: Full Core, provider, protocol, CLI, extension, and state flows.
 - New concepts and syntax: End-to-end scenario orchestration and evidence capture.
 - Learner task: Run and document golden journeys 2–5 with one authenticated read-only Codex turn.

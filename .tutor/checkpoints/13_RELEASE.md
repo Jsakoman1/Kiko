@@ -6,7 +6,7 @@
 - Checkpoint kind: acceptance
 - Observable outcome: Release Core/CLI and VSIX install without source checkout, manual Python path, or developer command.
 - Why it matters: Installability distinguishes the finished product from a repository demo.
-- Prerequisites: KIKO-066, KIKO-069A, KIKO-070, and KIKO-071B.
+- Prerequisites: KIKO-066, KIKO-069C, KIKO-070, and KIKO-071E.
 - Known concepts: Release artifacts, compatibility, doctor, and clean-profile smoke tests.
 - New concepts and syntax: Release acceptance record and installation evidence capture.
 - Learner task: Perform the documented install and first-run checks from release artifacts only.
@@ -54,7 +54,7 @@
 - Checkpoint kind: acceptance
 - Observable outcome: Common product failures and unclear-teaching feedback recover safely on packaged artifacts.
 - Why it matters: Release behavior must match tested recovery policy outside the development environment.
-- Prerequisites: KIKO-059A, KIKO-068A, KIKO-069A, KIKO-071B, KIKO-072, and KIKO-074.
+- Prerequisites: KIKO-059A, KIKO-068A, KIKO-069C, KIKO-071E, KIKO-072, and KIKO-074.
 - Known concepts: Error taxonomy, backups, process cleanup, feedback isolation, and packaged product.
 - New concepts and syntax: Failure-injection release acceptance matrix.
 - Learner task: Run corrupt state, missing auth, provider crash, cancel/restart, and unclear-feedback scenarios.
@@ -70,13 +70,13 @@
 - Checkpoint kind: acceptance
 - Observable outcome: Previous supported beta upgrades to v1.0 while preserving all compatible user-owned data.
 - Why it matters: A finished local product must respect user data before, during, and after installation.
-- Prerequisites: KIKO-069A, KIKO-070, and KIKO-072.
+- Prerequisites: KIKO-069C, KIKO-070, and KIKO-072.
 - Known concepts: Migration, rollback, artifacts, and separate data owners.
 - New concepts and syntax: Packaged upgrade acceptance manifest.
 - Learner task: Execute the documented beta-to-v1.0 upgrade on isolated profiles.
 - Verification: Follow the upgrade part of `docs/upgrade-and-uninstall.md`, then run `make smoke-upgrade`.
 - Expected behavior: Core/VSIX upgrade succeeds and project, learner, reference, feedback, and settings remain valid.
-- Edge case: Failed upgrade rolls back through KIKO-069A without partial owner versions.
+- Edge case: Failed upgrade rolls back through KIKO-069B without partial owner versions.
 - Not included: Automatic remote updates or deleting unrelated Codex/VS Code data.
 - Exit condition: Supported upgrade, rollback, owner preservation, and version-consistency evidence pass.
 
@@ -86,7 +86,7 @@
 - Checkpoint kind: acceptance
 - Observable outcome: Kiko uninstalls binaries/extension while the user separately chooses retain, export, or delete for each data owner.
 - Why it matters: Product removal must remain reversible and respect private learning history.
-- Prerequisites: KIKO-060A and KIKO-075.
+- Prerequisites: KIKO-060C and KIKO-075.
 - Known concepts: Data owners, selective destructive confirmation, exports, and packaged artifacts.
 - New concepts and syntax: Uninstall acceptance manifest.
 - Learner task: Execute uninstall on isolated profiles for retain, export, delete, and cancel choices.
@@ -102,7 +102,7 @@
 - Checkpoint kind: acceptance
 - Observable outcome: Versioned artifacts and complete quality evidence are archived as an approved v1.0 candidate.
 - Why it matters: “Finished” needs a reproducible definition and traceable proof.
-- Prerequisites: KIKO-066, KIKO-067, KIKO-068A, KIKO-070, KIKO-071B, KIKO-073, KIKO-074A, and KIKO-075A.
+- Prerequisites: KIKO-066, KIKO-067, KIKO-068A, KIKO-070, KIKO-071E, KIKO-073, KIKO-074A, and KIKO-075A.
 - Known concepts: Release manifests, checksums, compatibility, acceptance evidence, and dogfood feedback.
 - New concepts and syntax: Release sign-off checklist and known-limitations record.
 - Learner task: Assemble artifacts, checksums, install/privacy docs, changelog, matrix, test reports, and accepted feedback traceability.

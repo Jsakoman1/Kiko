@@ -52,7 +52,8 @@ policy.
 
 1. **Learner authorship:** Kiko and its expert do not edit substantive learner
    source in v1.0.
-2. **Syntax before use:** unfamiliar syntax is explained before it appears in a
+2. **Syntax and configuration before use:** unfamiliar code syntax and
+   configuration/data-format structure are explained before they appear in a
    lesson example or task.
 3. **Progressive assistance:** Kiko begins at the requested or appropriate help
    level and increases help only when asked or when genuine difficulty is
@@ -352,6 +353,8 @@ identical because Python Tutor Core owns them.
 The release fails even when the software runs if any of these are false:
 
 - every new-lesson fixture passes the no-unannounced-syntax audit
+- every new configuration-format fixture explains its consumer, hierarchy,
+  punctuation, value types, required/default fields, effects, and Kiko mapping
 - every interaction fixture matches the required field order in
   `LESSON_SPEC.md`
 - Tutor-quality feedback preserves the checkpoint and cannot lower competence

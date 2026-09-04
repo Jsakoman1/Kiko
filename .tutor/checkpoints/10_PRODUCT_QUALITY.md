@@ -22,7 +22,7 @@
 - Checkpoint kind: implementation
 - Observable outcome: Sidebar/CLI distinguish unrecognized, existing valid, incomplete, and conflicting Tutor workspaces.
 - Why it matters: Product value begins only when setup reaches a clear learner action safely.
-- Prerequisites: KIKO-053B, KIKO-054C, and KIKO-057.
+- Prerequisites: KIKO-053B, KIKO-054D, and KIKO-057.
 - Known concepts: Workspace paths, state validation, setup/ready views, and doctor results.
 - New concepts and syntax: Project-recognition result and onboarding entry-state mapping.
 - Learner task: Classify one opened workspace and render the correct first setup/ready action.
@@ -54,7 +54,7 @@
 - Checkpoint kind: integration
 - Observable outcome: Accepted onboarding creates all Tutor files and returns Ready at the first checkpoint; reopening resumes correctly.
 - Why it matters: Setup must not leave partial projects or reset accepted progress.
-- Prerequisites: KIKO-049B and KIKO-058A.
+- Prerequisites: KIKO-049C and KIKO-058A.
 - Known concepts: Transactional Tutor-file creation, workspace recognition, sidebar states, and handoff.
 - New concepts and syntax: Onboarding completion receipt and reopen validation.
 - Learner task: Connect final plan acceptance to Core creation and later workspace reopen.
@@ -86,7 +86,7 @@
 - Checkpoint kind: integration
 - Observable outcome: CLI and sidebar render the same error meaning and execute only the Core-approved recovery action.
 - Why it matters: Users need consistent recovery regardless of surface.
-- Prerequisites: KIKO-053B, KIKO-054C, and KIKO-059.
+- Prerequisites: KIKO-053B, KIKO-054D, and KIKO-059.
 - Known concepts: Stable error codes, recoverable/blocked views, CLI presenter, and Core actions.
 - New concepts and syntax: Cross-surface error fixture and recovery receipt.
 - Learner task: Route one error/recovery pair through CLI and sidebar without duplicating policy.
@@ -97,36 +97,68 @@
 - Exit condition: Every documented error class has CLI/sidebar semantic parity and safe action evidence.
 
 <a id="kiko-060"></a>
-### KIKO-060 — Inspect and export learner and feedback data
+### KIKO-060 — Inspect learner and feedback data
 
 - Checkpoint kind: implementation
-- Observable outcome: User can inspect and export learner, reference, and feedback data as separate owners.
+- Observable outcome: User can inspect learner, reference, and feedback data as separate read-only owners.
 - Why it matters: Private local learning history belongs to the user, not the model or project.
-- Prerequisites: KIKO-021, KIKO-022, KIKO-028A, KIKO-050, and KIKO-053A.
+- Prerequisites: KIKO-021, KIKO-022, KIKO-028C, KIKO-050B, and KIKO-053A.
 - Known concepts: Separate data owners, confirmations, atomic writes, and sanitized feedback.
-- New concepts and syntax: Export manifest and owner-specific serialization.
-- Learner task: Implement read-only inspect and export for each selected owner against temporary data.
-- Verification: `.venv/bin/python -m unittest tests.e2e.test_data_control.InspectExportTests -v`
-- Expected behavior: Display/export is complete, sanitized, owner-labeled, and changes no source or durable state.
-- Edge case: Missing owner data exports an explicit empty record rather than another owner's content.
-- Not included: Cloud synchronization, telemetry upload, or automatic data expiration.
-- Exit condition: Inspect, export, missing-data, sanitization, and no-write fixtures pass.
+- New concepts and syntax: Owner-specific read-only inspection view.
+- Learner task: Implement inspection for each selected owner against temporary data without writing anything.
+- Verification: `.venv/bin/python -m unittest tests.e2e.test_data_control.InspectTests -v`
+- Expected behavior: Display is complete, sanitized, owner-labeled, and changes no source or durable state.
+- Edge case: Missing owner data displays an explicit empty result rather than another owner's content.
+- Not included: Export, reset/delete, cloud synchronization, telemetry, or expiration.
+- Exit condition: Inspect, missing-data, sanitization, owner-isolation, and no-write fixtures pass.
 
 <a id="kiko-060a"></a>
-### KIKO-060A — Reset or delete selected local data safely
+### KIKO-060A — Export learner and feedback data
 
 - Checkpoint kind: implementation
-- Observable outcome: Explicit target-specific confirmation resets/deletes only selected project, learner, reference, or feedback data.
-- Why it matters: Destructive controls must preserve unrelated user-owned history.
+- Observable outcome: User can export selected learner, reference, and feedback owners into one labeled portable bundle.
+- Why it matters: Private local learning history belongs to the user and must be portable before destructive controls exist.
 - Prerequisites: KIKO-060.
-- Known concepts: Separate owners, export, confirmations, backups, and atomic state operations.
+- Known concepts: Owner-specific inspection, serialization, sanitization, confirmations, and atomic writes.
+- New concepts and syntax: Export manifest and owner-specific export entries.
+- Learner task: Export selected temporary owners without modifying their source data.
+- Verification: `.venv/bin/python -m unittest tests.e2e.test_data_control.ExportTests -v`
+- Expected behavior: Bundle contains only selected labeled owners, versions, and sanitized content.
+- Edge case: Missing selected owner produces an explicit empty entry, never another owner's data.
+- Not included: Reset/delete, cloud upload, telemetry, or automatic expiration.
+- Exit condition: Selected, missing, sanitized, owner-isolated, and no-source-write export fixtures pass.
+
+<a id="kiko-060b"></a>
+### KIKO-060B — Reset one selected local data owner
+
+- Checkpoint kind: implementation
+- Observable outcome: Explicit target-specific confirmation resets one selected owner to its valid empty/default state.
+- Why it matters: Reset must preserve unrelated user-owned history and remain different from deletion.
+- Prerequisites: KIKO-060A.
+- Known concepts: Separate owners, export, confirmations, defaults, backups, and atomic state operations.
 - New concepts and syntax: Destructive-action target receipt and typed confirmation phrase/action.
-- Learner task: Implement one target-specific reset/delete transaction with cancel and prior-export option.
-- Verification: `.venv/bin/python -m unittest tests.e2e.test_data_control.ResetDeleteTests -v`
-- Expected behavior: Cancel changes nothing; confirmed action removes/resets only target and preserves all others.
+- Learner task: Implement one target-specific reset transaction with cancel and export-first option.
+- Verification: `.venv/bin/python -m unittest tests.e2e.test_data_control.ResetTests -v`
+- Expected behavior: Cancel changes nothing; confirmed reset writes only the target's valid default and preserves all others.
+- Edge case: Ambiguous “reset all” is rejected unless each owner is explicitly listed and confirmed.
+- Not included: Deleting files, cloud data, or unrelated Codex/VS Code state.
+- Exit condition: Cancel, wrong-target, selective reset, export-first, and owner-preservation fixtures pass.
+
+<a id="kiko-060c"></a>
+### KIKO-060C — Delete one selected local data owner
+
+- Checkpoint kind: implementation
+- Observable outcome: Explicit target-specific confirmation removes only one selected local owner.
+- Why it matters: Deletion is less reversible than reset and needs its own exact safety contract.
+- Prerequisites: KIKO-060B.
+- Known concepts: Owner targets, export-first option, confirmation receipt, backups, and atomic operations.
+- New concepts and syntax: Delete-specific confirmation and absent-after-delete receipt.
+- Learner task: Implement one target-specific delete transaction with cancel and prior-export option.
+- Verification: `.venv/bin/python -m unittest tests.e2e.test_data_control.DeleteTests -v`
+- Expected behavior: Cancel changes nothing; confirmed delete removes only its target and preserves all others.
 - Edge case: Ambiguous “delete all” is rejected unless every owner is listed and confirmed separately.
 - Not included: Cloud deletion or unrelated Codex/VS Code data.
-- Exit condition: Cancel, wrong-target, selective reset/delete, export-first, and recovery fixtures pass.
+- Exit condition: Cancel, wrong-target, selective delete, export-first, repeated-delete, and owner-preservation fixtures pass.
 
 <a id="kiko-061"></a>
 ### KIKO-061 — Localize headings without changing technical literals
@@ -134,7 +166,7 @@
 - Checkpoint kind: implementation
 - Observable outcome: Interaction headings localize while semantic field order and technical literals remain unchanged.
 - Why it matters: Consistent pedagogy must remain understandable and operable across supported explanation languages.
-- Prerequisites: KIKO-027C and KIKO-053A.
+- Prerequisites: KIKO-027F and KIKO-053A.
 - Known concepts: Canonical fields, presenters, and configured explanation language.
 - New concepts and syntax: Localization keys and fallback locale.
 - Learner task: Render one interaction in Croatian and fallback English without translating code/commands/output.
@@ -145,20 +177,36 @@
 - Exit condition: Croatian, fallback, missing-key, semantic-order, and technical-literal fixtures pass.
 
 <a id="kiko-061a"></a>
-### KIKO-061A — Verify keyboard and visual accessibility
+### KIKO-061A — Verify keyboard, labels, and focus
 
 - Checkpoint kind: integration
-- Observable outcome: Primary sidebar flow is keyboard operable with readable contrast, labels, focus, and selectable response text.
-- Why it matters: Product actions and learning content must be usable without mouse or ambiguous visual-only state.
-- Prerequisites: KIKO-053B, KIKO-054C, and KIKO-061.
+- Observable outcome: Primary sidebar actions are keyboard operable with semantic labels and predictable focus.
+- Why it matters: Product actions must be usable without a mouse or ambiguous unlabeled controls.
+- Prerequisites: KIKO-053B, KIKO-054D, and KIKO-061.
 - Known concepts: Sidebar states, localized labels, focus management, and primary actions.
-- New concepts and syntax: ARIA labels, keyboard focus order, and automated accessibility assertions.
-- Learner task: Add keyboard/label/contrast/selectable-text checks to primary state/action fixtures.
-- Verification: `npm --prefix extension test -- --runInBand accessibility`
+- New concepts and syntax: ARIA labels, keyboard focus order, and focus assertions.
+- Learner task: Add keyboard/label/focus checks to primary state/action fixtures.
+- Verification: `npm --prefix extension test -- --runInBand keyboard-accessibility`
 - Expected behavior: Keyboard-only user reaches each primary action and focus moves predictably after state changes.
-- Edge case: Streaming/long response remains selectable and does not steal focus repeatedly.
-- Not included: Formal external certification or support for unconfirmed assistive technology combinations.
-- Exit condition: Focus, keyboard, label, contrast, selectable-text, and streaming fixtures pass.
+- Edge case: Updating a working response does not repeatedly steal focus.
+- Not included: Contrast, selectable text, formal certification, or unconfirmed assistive technologies.
+- Exit condition: Keyboard, label, focus-order, state-change, and no-focus-steal fixtures pass.
+
+<a id="kiko-061b"></a>
+### KIKO-061B — Verify visual and text accessibility
+
+- Checkpoint kind: integration
+- Observable outcome: Sidebar states use readable contrast and status text while response/code text remains selectable.
+- Why it matters: Meaning cannot depend on color alone and learning content must be copy/selectable.
+- Prerequisites: KIKO-061A.
+- Known concepts: Sidebar states, localized labels, safe rendering, and automated accessibility assertions.
+- New concepts and syntax: Contrast assertions, non-color status cues, and selectable-text checks.
+- Learner task: Add contrast/status/selectable-text checks to primary response and error fixtures.
+- Verification: `npm --prefix extension test -- --runInBand visual-text-accessibility`
+- Expected behavior: Every state has readable contrast/text meaning and long/streaming content remains selectable.
+- Edge case: Streaming updates preserve selection and do not encode status through color alone.
+- Not included: Formal external certification or unconfirmed assistive technology combinations.
+- Exit condition: Contrast, text-cue, selectable, streaming-selection, and long-response fixtures pass.
 
 <a id="kiko-062"></a>
 ### KIKO-062 — Aggregate one full product verification command
@@ -166,7 +214,7 @@
 - Checkpoint kind: integration
 - Observable outcome: One documented command runs deterministic Python, protocol, security, TypeScript, extension, and fake-e2e checks.
 - Why it matters: Release confidence needs one reproducible gate rather than scattered manual memory.
-- Prerequisites: KIKO-056, KIKO-057, KIKO-058B, KIKO-059A, KIKO-060A, and KIKO-061A.
+- Prerequisites: KIKO-056, KIKO-057, KIKO-058B, KIKO-059A, KIKO-060C, and KIKO-061B.
 - Known concepts: Existing test commands, clean fixtures, and failure exit codes.
 - New concepts and syntax: Build orchestration target and test-stage reporting.
 - Learner task: Add a root verification target that stops on failure and summarizes passed stages.

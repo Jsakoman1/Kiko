@@ -244,6 +244,131 @@ reasoning, secrets, full prompts, or source-code copies.
 - Project status: verified
 - Runtime status: planned in KIKO-032 through KIKO-032B
 
+### DF-011 — Completing an audited checkpoint invalidated the plan validator
+
+- Date: 2026-09-04
+- Observation: After KIKO-011 passed, the shared validator rejected its retained
+  historical size-audit entry because the checkpoint was no longer pending.
+- Contract/rule: Every currently pending checkpoint must be size-audited, while
+  completed checkpoints remain valid historical audit records.
+- Scope: shared skill, Kiko project, runtime product
+- Immediate recovery: Confirmed KIKO-011 independently, corrected validator
+  semantics, and reran the full roadmap audit.
+- Shared-skill change: Size-audit validation now allows known completed IDs and
+  still rejects unknown IDs or uncovered pending checkpoints.
+- Project change: KIKO-032B includes completed-audit-history regression behavior.
+- Runtime/roadmap change: Product-side atomicity validation must preserve audit
+  lineage as progress advances.
+- Regression check: Completing KIKO-011 yields 11 complete/110 pending and a
+  valid audit; removing any pending normalized ID still fails validation.
+- User decision: accepted as an in-scope completion-validator correction
+- Skill status: verified
+- Project status: verified
+- Runtime status: planned in KIKO-032B
+
+### DF-012 — Package structure and editable installation were combined
+
+- Date: 2026-09-04
+- Observation: Starting KIKO-012A required Python package/module structure,
+  relative imports, TOML metadata, a build backend, editable installation, and
+  console entry points in one beginner checkpoint; the fresh `.venv` also had no
+  build backend installed.
+- Contract/rule: One implementation checkpoint gets one main new mental model
+  and one learner-owned responsibility change.
+- Scope: Kiko project
+- Immediate recovery: Split the checkpoint before presenting source instructions.
+- Shared-skill change: None; the existing complexity budget detected the issue.
+- Project change: KIKO-012A now covers package/module execution only; KIKO-012B
+  separately covers `pyproject.toml`, build backend, editable install, and the
+  generated `kiko` command.
+- Runtime/roadmap change: KIKO-013 now depends on the installed entry point from
+  KIKO-012B.
+- Regression check: Each checkpoint has one primary mental model and separate
+  verification for `python -m kiko` versus `.venv/bin/kiko`.
+- User decision: accepted through the standing dogfood/atomicity instruction
+- Skill status: not needed
+- Project status: verified
+- Runtime status: not applicable
+
+### DF-013 — TOML was presented without its language structure
+
+- Date: 2026-09-04
+- Observation: KIKO-012B explained which values to enter but did not first
+  explain TOML hierarchy, table scope, assignment syntax, value types, field
+  ownership, required/default status, or the mapping from metadata to Kiko.
+- Contract/rule: An unfamiliar declarative format must receive a format-specific
+  preflight before any project configuration is assigned.
+- Scope: shared skill, Kiko project, runtime product
+- Immediate recovery: Kept KIKO-012B active and replaced the opaque block with a
+  bottom-up TOML explanation tied to pip, setuptools, and Kiko behavior.
+- Shared-skill change: Extended the lesson contract and generated lesson template
+  with a configuration/data-format preflight.
+- Project change: `LESSON_SPEC.md` and `PRODUCT_SPEC.md` now require format
+  hierarchy, punctuation, types, fields, effects, mappings, and errors.
+- Runtime/roadmap change: KIKO-025 now builds/audits both code-syntax and
+  configuration-format preflights; canonical TutorInteraction carries
+  `format_preflight` separately.
+- Regression check: Reject a TOML lesson that uses an unexplained section,
+  field, value type, required/default decision, or Kiko mapping.
+- User decision: explicitly accepted in the feedback request
+- Skill status: implemented
+- Project status: implemented
+- Runtime status: planned in KIKO-025 and KIKO-027
+
+### DF-014 — First unittest and filesystem isolation were combined
+
+- Date: 2026-09-04
+- Observation: Starting KIKO-014 would have introduced unittest discovery,
+  Python class/inheritance syntax, assertions, temporary directories, nested
+  context managers, and mocking in one beginner checkpoint.
+- Contract/rule: One implementation checkpoint gets one main new mental model;
+  later steps may build on it without hiding new syntax.
+- Scope: Kiko project
+- Immediate recovery: Split the checkpoint before presenting the test task.
+- Shared-skill change: None; the existing complexity/Syntax-preflight rules
+  detected the issue.
+- Project change: KIKO-014 now introduces one pure discovered unit test;
+  KIKO-014A separately isolates filesystem state with a temporary home/mock.
+- Runtime/roadmap change: KIKO-015 state contracts now depend on the completed
+  filesystem-isolation checkpoint.
+- Regression check: KIKO-014 uses no filesystem/mocking syntax; KIKO-014A starts
+  only after unittest class/assertion syntax is recorded.
+- User decision: accepted through the standing dogfood/atomicity instruction
+- Skill status: not needed
+- Project status: verified
+- Runtime status: not applicable
+
+### DF-015 — Parent-only size audit missed final child readiness
+
+- Date: 2026-09-04
+- Observation: Starting KIKO-015 exposed that the earlier roadmap audit had
+  classified original parent checkpoints but had not dry-run every final child;
+  some children still combined independent outcomes and syntax families.
+- Contract/rule: One implementation checkpoint gets one main new mental model
+  and one primary observable behavior.
+- Scope: Kiko project
+- Immediate recovery: Paused KIKO-015 and performed a second semantic pass over
+  every final pending checkpoint before resuming any lesson.
+- Shared-skill change: `guided-project-tutor` now requires a full final-child
+  lesson-readiness pass after splitting; its project templates retain the rows,
+  and its validator rejects missing, duplicate, non-pending, reordered, stale-
+  title, placeholder, or malformed readiness records.
+- Project change: `PLANNING_SPEC.md` now owns the post-split lesson dry-run gate;
+  `CHECKPOINT_SIZE_AUDIT.md` contains one readiness row for every final pending
+  ID. Oversized child checkpoints were split across state, pedagogy, planning,
+  provider, TypeScript, data-control, packaging, migration, and performance
+  boundaries.
+- Runtime/roadmap change: KIKO-032D implements the final-child readiness gate in
+  Kiko; the normalized roadmap now has 168 checkpoints, 17 verified and 151
+  individually audited pending checkpoints.
+- Regression check: A plan fails acceptance when any final child lacks a
+  readiness row or cannot render one complete lesson without invented syntax,
+  task, verification, or scope.
+- User decision: explicitly requested and accepted
+- Skill status: verified
+- Project status: verified
+- Runtime status: planned in KIKO-032D
+
 ## Record template
 
 ### <FEEDBACK_ID> — <SHORT_TITLE>

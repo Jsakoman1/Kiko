@@ -291,6 +291,35 @@ Before plan acceptance or material replanning, classify every pending checkpoint
 as `keep`, `split`, or `integration/acceptance` and retain the audit mapping in
 `CHECKPOINT_SIZE_AUDIT.md`.
 
+### Final post-split learning-readiness gate
+
+The first keep/split classification is not sufficient. After every requested
+split has been applied, Kiko must audit every final pending checkpoint again,
+including each newly created child. The accepted plan retains one readiness row
+per final ID; parent-only coverage does not pass.
+
+A final implementation checkpoint is lesson-ready only when a dry run can fill
+the complete `new_checkpoint` interaction without inventing information:
+
+- one observable outcome and one learner-owned responsibility boundary
+- one primary mental model with a bounded, explicit syntax/configuration list
+- one task whose clauses all produce the same outcome
+- one exact primary verification and expected result
+- edge cases that exercise that outcome rather than add another feature
+- exclusions that make the stop boundary unambiguous
+- prerequisites that establish every assumed concept before use
+
+For integration/acceptance checkpoints, the dry run must additionally prove
+that any broader scenario combines already implemented behavior, introduces no
+unrelated feature, and answers one named integration or release question.
+
+Any failed child is split/repaired and the complete final-ID pass repeats until
+every pending row is ready. Loading the next lesson may verify that its retained
+readiness result is still applicable, but lesson time is not the normal point
+for discovering an oversized accepted checkpoint. A material scope,
+architecture, prerequisite, or learner-profile change invalidates affected rows
+and requires a visible re-audit before teaching them.
+
 ### Product increments
 
 The ordering should create small working vertical increments. Infrastructure is
@@ -440,6 +469,9 @@ The planning feature is not complete until tests prove that:
 - technical defaults remain visible assumptions rather than facts
 - every required behavior and acceptance journey has traceability
 - vague or multi-outcome checkpoints are rejected or split
+- every final post-split checkpoint has a passing lesson-readiness dry run
+- adding or splitting one checkpoint invalidates the final-ID audit until every
+  resulting child is covered again
 - applicable error, data, test, packaging, upgrade, and delivery work is present
 - plan critique cannot silently expand confirmed scope
 - application source and the last accepted plan remain unchanged on cancel or

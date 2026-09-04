@@ -12,6 +12,11 @@ For the active checkpoint, follow its link from `LEARNING_PLAN.md` and read the
 corresponding stable specification under `.tutor/checkpoints/`. Completion
 checkboxes exist only in `LEARNING_PLAN.md`.
 
+Accepted future checkpoints must already have an individual `ready` row in the
+final post-split section of `CHECKPOINT_SIZE_AUDIT.md`. Material replanning
+re-audits every final child before any lesson is presented; do not postpone
+normal checkpoint atomization until that checkpoint becomes active.
+
 ## Context routing
 
 Always read:
