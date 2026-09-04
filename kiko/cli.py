@@ -1,6 +1,7 @@
 import json
-from pathlib import Path
 import sys
+
+from pathlib import Path
 
 def create_context():
     context = {
@@ -14,7 +15,7 @@ def create_context():
         },
         "tutor" :  {
             "help_preference": "guided",
-            "current_step" : 2
+            "runtime_checkpoint" : "not-initialized"
         }
     }
     return context
@@ -34,7 +35,7 @@ def load_context():
         context = create_context()
         save_context(context)
         return context
-    
+
 def load_learner_state():
     path = Path.home() / "Library" / "Application Support" / "Project Tutor" / "learner.json"
 
@@ -49,6 +50,15 @@ def load_learner_state():
             "concepts": []
         }
 
+def load_personal_reference():
+    path = Path.home() / "Library" / "Application Support" / "Project Tutor" / "REFERENCE.md"
+
+    if path.exists():
+        text = path.read_text()
+        return text
+    else:
+        return ""
+
 def select_relevant_concepts(learner, language):
     prefix = f"{language.lower()}:"
     concepts = learner.get("concepts", [])
@@ -62,6 +72,10 @@ def select_relevant_concepts(learner, language):
 def main():
     arguments = sys.argv[1:]
     learner = load_learner_state()
+    personal_reference = load_personal_reference()
+
+    personal_reference_lines = personal_reference.splitlines()
+    personal_reference_lines_preview = personal_reference_lines[:5]
 
     context = load_context()
 
@@ -82,9 +96,13 @@ def main():
             print("Project:", context["project"]["name"])
             print("Language:", context["project"]["language"])
             print("Help preference:", context["tutor"]["help_preference"])
-            print("Current step:", context["tutor"]["current_step"])
+            print("Runtime project checkpoint:", context["tutor"]["runtime_checkpoint"])
             print("Previous languages:", learner["profile"]["previous_languages"])
             print("Relevant concepts:", select_relevant_concepts(learner, context["project"]["language"]))
+            print("Reference preview:")
+
+            for personal_reference_line in personal_reference_lines_preview:
+                print(personal_reference_line)
 
 if __name__ == "__main__":
     main()

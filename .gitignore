@@ -4,3 +4,5 @@ __pycache__/
 .idea/
 out/
 *.iml
+.venv/
+*.egg-info/

@@ -22,6 +22,31 @@
   displayed the learner's previous language. Help used: focused example.
 - Project Step 4B: Selected and displayed only Python concept summaries from
   the separate global learner state. Help used: guided explanation and example.
+- KIKO-011: Loaded the separate global personal reference, displayed a bounded
+  five-line preview, and handled a missing reference safely. Help used: guided
+  lesson and one debugging explanation about text versus parsed JSON.
+- KIKO-012: Added `.venv/` to `.gitignore`, created an isolated local Python
+  environment, and verified that its interpreter differs from the base Python.
+  Help used: guided command and environment explanation.
+- KIKO-012A: Moved the existing CLI into a regular Python package, routed
+  `python -m kiko` through `__main__.py`, and preserved welcome/help/show plus
+  import-without-startup behavior. Help used: guided package example and one
+  debugging explanation about module versus direct-file execution.
+- KIKO-012B: Wrote TOML build/project/script metadata, installed Kiko editably,
+  and verified that the generated `kiko` command and package module execution
+  share the same CLI behavior. Help used: detailed configuration-format
+  explanation and debugging of environment/module command mistakes.
+- KIKO-013: Renamed ambiguous runtime checkpoint state and CLI output so the
+  running learner-project state no longer claims ownership of Kiko-development
+  roadmap progress. Help used: guided architecture explanation and concrete
+  development/runtime/CLI comparison.
+- KIKO-014: Added a root-discovered `unittest.TestCase` that verifies the default
+  Kiko project name and confirmed that importing the CLI has no startup side
+  effect. Help used: guided unittest example and one test-directory correction.
+- KIKO-014A: Added a temporary-home learner-state test using a context manager
+  and mock patch, then proved the real global learner profile's checksum,
+  modification time, and size remained unchanged. Help used: guided isolation
+  example.
 
 These prove completed project steps. The related Python concepts are recorded
 as `assisted`, not independent or reliable.
@@ -41,6 +66,20 @@ as `assisted`, not independent or reliable.
   project state.
 - The current prototype now selects language-relevant concept summaries without
   merging global learner state into project state.
+- The current prototype now reads and previews the personal reference without
+  copying it into project state.
+- Kiko development now has an ignored project-local Python environment for
+  isolated package and test work.
+- Kiko now runs as a Python package through `python -m kiko` while preserving
+  the prototype CLI behavior.
+- Kiko now has validated package metadata and a project-local editable `kiko`
+  console command.
+- Kiko-development progress and runtime learner-project checkpoint state now
+  have separate owners and domain-specific names.
+- Kiko now has a discoverable automated unit-test foundation outside the
+  application package.
+- Kiko filesystem tests can now isolate private learner state from the real
+  Application Support directory.
 - The old syntax journal was migrated into the global personal reference.
 - The new Project Tutor implementation roadmap starts at Step 1 without
   resetting prior learning.

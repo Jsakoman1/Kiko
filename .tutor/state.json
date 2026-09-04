@@ -13,6 +13,6 @@
   },
   "tutor": {
     "help_preference": "guided",
-    "current_step": "KIKO-011"
+    "runtime_checkpoint": "not-initialized"
   }
 }
