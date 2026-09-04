@@ -396,6 +396,57 @@ reasoning, secrets, full prompts, or source-code copies.
 - Project status: verified
 - Runtime status: not applicable
 
+### DF-017 — Repeated implementation patterns were not surfaced for refactoring
+
+- Date: 2026-09-04
+- Observation: The second state-validator implementation introduced a reusable
+  typed-field helper, but the Tutor did not proactively identify the equivalent
+  repetition in the first project-state validator or offer a shared refactor.
+- Contract/rule: When repetition makes an abstraction materially useful, the
+  Tutor must surface the opportunity and its scope rather than silently leaving
+  parallel implementations.
+- Scope: learner-specific, Kiko project, reusable shared skill
+- Immediate recovery: Explained that the first explicit validator is complete
+  for its checkpoint, distinguished behavior from maintainability, and agreed
+  to offer reusable refactors when later checkpoints reveal repetition.
+- Shared-skill change: Added a reuse-opportunity gate to the lesson interaction
+  contract and generated lesson-spec template.
+- Project change: Added the same gate to Kiko's authoritative `LESSON_SPEC.md`.
+- Runtime/roadmap change: None; this request governs development tutoring and
+  does not add a shipped Kiko runtime feature.
+- Regression check: A checkpoint dry run with a second meaningful occurrence
+  must name the repetition and offer or explicitly defer a bounded refactor;
+  learner-owned source is never silently rewritten.
+- User decision: explicitly accepted in the feedback request
+- Skill status: implemented
+- Project status: implemented
+- Runtime status: not applicable
+
+### DF-018 — Completion handoffs left pending-only tables stale
+
+- Date: 2026-09-04
+- Observation: KIKO-015 through KIKO-015C were completed in the roadmap, but
+  their final-readiness and execution-mode rows remained in tables defined as
+  pending-only, causing the project-plan validator to fail.
+- Contract/rule: A durable completion handoff must reconcile every pending-only
+  companion table while preserving historical audit records.
+- Scope: Kiko project, reusable shared skill
+- Immediate recovery: Removed only the four completed pending-only rows,
+  recalculated execution-mode totals, and preserved the historical original-
+  checkpoint audit.
+- Shared-skill change: Added a completion bookkeeping invariant to the shared
+  skill and generated project AgentReadme template.
+- Project change: Added the invariant to `AgentReadme.md` and clarified the
+  pending-only final-readiness table.
+- Runtime/roadmap change: None; roadmap scope and checkpoint order are unchanged.
+- Regression check: After each completion, pending roadmap IDs must exactly
+  match final-readiness and execution-mode rows in order, and the shared plan
+  validator must pass before the next checkpoint lesson.
+- User decision: explicitly accepted in the bookkeeping-fix request
+- Skill status: implemented
+- Project status: implemented
+- Runtime status: not applicable
+
 ## Record template
 
 ### <FEEDBACK_ID> — <SHORT_TITLE>

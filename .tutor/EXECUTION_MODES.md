@@ -45,20 +45,16 @@ visible and must not retroactively overstate competence.
 
 ## Distribution
 
-- Learner-owned: 40
-- Pair-programmed: 46
-- Agent-delegated: 54
+- Learner-owned: 38
+- Pair-programmed: 45
+- Agent-delegated: 53
 - Acceptance-only: 11
-- Total pending: 151
+- Total pending: 147
 
 ## Pending checkpoint assignments
 
 | Checkpoint | Title | Mode | Reason |
 | --- | --- | --- | --- |
-| `KIKO-015` | Validate the project-state root and version | `learner-owned` | First representative pattern or central product policy; learner writes the implementation. |
-| `KIKO-015A` | Validate project-state required fields and types | `learner-owned` | First representative pattern or central product policy; learner writes the implementation. |
-| `KIKO-015B` | Enforce the project-state contract during loading | `pair-programmed` | Risky state, provider, security, or cross-boundary integration; learner and agent implement/review together. |
-| `KIKO-015C` | Validate the learner-state contract | `agent-delegated` | Repetitive variant, integration glue, or build/UI scaffolding after its core pattern; agent may implement the bounded checkpoint. |
 | `KIKO-015D` | Validate the session-state contract | `agent-delegated` | Repetitive variant, integration glue, or build/UI scaffolding after its core pattern; agent may implement the bounded checkpoint. |
 | `KIKO-015E` | Validate the Tutor-feedback-state contract | `agent-delegated` | Repetitive variant, integration glue, or build/UI scaffolding after its core pattern; agent may implement the bounded checkpoint. |
 | `KIKO-016` | Write state through atomic replacement | `learner-owned` | First representative pattern or central product policy; learner writes the implementation. |

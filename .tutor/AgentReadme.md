@@ -24,6 +24,12 @@ Before every checkpoint lesson or implementation turn, read its row in
 `pair-programmed` or `agent-delegated` mode, source edits require the mode's
 bounded workflow and never count as learner evidence by themselves.
 
+At every completion handoff, reconcile all pending-only companion tables:
+remove the completed checkpoint from the final-readiness section of
+`CHECKPOINT_SIZE_AUDIT.md` and from `EXECUTION_MODES.md`, update mode totals,
+preserve historical audit rows, and run the shared plan validator before
+presenting another checkpoint.
+
 ## Context routing
 
 Always read:

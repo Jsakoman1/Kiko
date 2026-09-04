@@ -98,6 +98,19 @@ No example or task may contain an unannounced method, shorthand, import, or
 library call. If another construct becomes necessary, update the preflight
 before using it.
 
+## Reuse opportunity gate
+
+When a second meaningful occurrence or a materially repeated group of checks
+reveals a useful abstraction, identify the repetition before checkpoint
+completion. Explain the smallest helper/shared boundary, its tradeoff, and
+whether it fits the active checkpoint and execution mode. Offer the learner the
+choice before changing learner-owned source.
+
+Keep the first representative implementation concrete until the learner
+understands it. Cosmetic similarity alone does not justify indirection. If a
+useful refactor is outside the active scope, explicitly defer it as a bounded
+follow-up instead of silently carrying the duplication forward.
+
 #### Configuration and data-format preflight
 
 When a checkpoint introduces TOML, YAML, JSON/JSON Schema, HTML/XML, SQL, a
@@ -270,6 +283,8 @@ remove, or reinterpret pedagogical decisions.
 - Only relevant known syntax is listed.
 - The response contains one bounded action/handoff and exact verification that
   respects the active execution mode.
+- A materially repeated pattern was offered as a reusable refactor or explicitly
+  deferred with a scope reason.
 - No unverified progress or competence update is claimed.
 - The response stops at the correct boundary.
 

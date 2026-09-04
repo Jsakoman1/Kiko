@@ -20,20 +20,19 @@ def create_context():
     }
     return context
 
-def save_context(context):
-    path = Path(".tutor/state.json")
-    context_text = json.dumps(context, indent=2)
-    path.write_text(context_text)
+def save_context(context, path=Path(".tutor/state.json")):
+    text = json.dumps(context, indent=2)
+    path.write_text(text)
 
-def load_context():
-    path = Path(".tutor/state.json")
-
+def load_context(path=Path(".tutor/state.json")):
     if path.exists():
         text = path.read_text()
-        return json.loads(text)
+        context = json.loads(text)
+        return validate_project_state(context)
     else:
         context = create_context()
-        save_context(context)
+        save_context(context,path)
+        validate_project_state(context)
         return context
 
 def load_learner_state():
@@ -68,6 +67,60 @@ def select_relevant_concepts(learner, language):
         if concept["id"].startswith(prefix):
             relevant.append(concept["id"] + "|" + concept["stage"])
     return relevant
+
+class ProjectStateError(Exception):
+    pass
+
+class LearnerStateError(Exception):
+    pass
+
+def require_typed_field(container, field, expected_type, error_type):
+    value = container.get(field)
+    if not isinstance(value, expected_type):
+        raise error_type(f"Invalid field: {field}")
+    return value
+
+def validate_project_state(state):
+    if not isinstance(state, dict):
+        raise ProjectStateError("State is not a dictionary!")
+    if state.get("version") != 1:
+        raise ProjectStateError("State version is not 1")
+    if not isinstance(state.get("mission"), str):
+        raise ProjectStateError("State Mission is not a String")
+    if not isinstance(state.get("rules"), list):
+        raise ProjectStateError("State Rules is not a list")
+    if not isinstance(state.get("notes"), list):
+        raise ProjectStateError("State notes is not a list!")
+    if not isinstance(state.get("project"), dict):
+        raise ProjectStateError("Project is not a dictionary!")
+    if not isinstance(state["project"].get("name"), str):
+        raise ProjectStateError("Project name is not a String!")
+    if not isinstance(state["project"].get("language"), str):
+        raise ProjectStateError("Project language is not a String!")
+    if not isinstance(state.get("tutor"), dict):
+        raise ProjectStateError("State Tutor is not a dictionary!")
+    if not isinstance(state["tutor"].get("help_preference"), str):
+        raise ProjectStateError("Project Tutor Help-reference is not a String!")
+    if not isinstance(state["tutor"].get("runtime_checkpoint"), str):
+        raise ProjectStateError("Project Tutor Runtime-checkpoint is not a String!")
+
+    return state
+
+def validate_learner_state(state):
+    if not isinstance(state, dict):
+        raise LearnerStateError("Learner state is not a dictionary")
+    if state.get("schema_version") != 1:
+        raise LearnerStateError("Learner state schema version is not 1")
+
+    profile = require_typed_field(state, "profile", dict, LearnerStateError)
+    require_typed_field(profile, "explanation_language", str, LearnerStateError)
+    require_typed_field(profile, "help_preference", str, LearnerStateError)
+    require_typed_field(profile, "previous_languages", list, LearnerStateError)
+    require_typed_field(profile, "current_learning_goals", list, LearnerStateError)
+    require_typed_field(state, "concepts", list, LearnerStateError)
+
+    return state
+
 
 def main():
     arguments = sys.argv[1:]

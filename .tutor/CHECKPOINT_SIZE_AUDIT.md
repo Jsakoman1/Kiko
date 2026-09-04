@@ -101,13 +101,11 @@ Integration and acceptance rows may combine already-built behavior only when
 they introduce no unrelated implementation and answer one explicit integration
 or release question. Any later material replan must regenerate this table for
 all final pending IDs; auditing only the original parent rows is insufficient.
+This final-readiness table is pending-only: a completion handoff removes the
+completed row while preserving the historical original-checkpoint audit above.
 
 | Final checkpoint | Kind | Single learning focus | Bounded new concepts/syntax | Exact primary verification | Verdict |
 | --- | --- | --- | --- | --- | --- |
-| `KIKO-015` | implementation | Validate the project-state root and version | `isinstance`, boolean `not`, a domain-specific exception class, `raise`, `pass`, and `assertRaises`. | `.venv/bin/python -m unittest tests.test_state_contracts.ProjectStateRootTests -v` | ready |
-| `KIKO-015A` | implementation | Validate project-state required fields and types | Required-field validation and nested type checks. | `.venv/bin/python -m unittest tests.test_state_contracts.ProjectStateFieldTests -v` | ready |
-| `KIKO-015B` | integration | Enforce the project-state contract during loading | Injected state paths and validation at an I/O boundary. | `.venv/bin/python -m unittest tests.test_state_loading.ProjectStateLoadingTests -v` | ready |
-| `KIKO-015C` | implementation | Validate the learner-state contract | Owner-specific contract composition with reusable field validators. | `.venv/bin/python -m unittest tests.test_state_contracts.LearnerStateTests -v` | ready |
 | `KIKO-015D` | implementation | Validate the session-state contract | Optional session fields and ephemeral-state ownership. | `.venv/bin/python -m unittest tests.test_state_contracts.SessionStateTests -v` | ready |
 | `KIKO-015E` | implementation | Validate the Tutor-feedback-state contract | Feedback-candidate field allowlist at the state boundary. | `.venv/bin/python -m unittest tests.test_state_contracts.FeedbackStateTests -v` | ready |
 | `KIKO-016` | implementation | Write state through atomic replacement | Temporary files, flush/close ordering, and atomic `Path.replace`. | `.venv/bin/python -m unittest tests.test_state_persistence.AtomicWriteTests -v` | ready |

@@ -47,6 +47,19 @@
   and mock patch, then proved the real global learner profile's checksum,
   modification time, and size remained unchanged. Help used: guided isolation
   example.
+- KIKO-015: Implemented a pure project-state root/version validator with a
+  domain-specific error and four isolated tests for valid, non-dictionary,
+  missing-version, and future-version inputs. Help used: guided lesson,
+  progressive debugging, and one project-specific correction.
+- KIKO-015A: Extended project-state validation across required top-level,
+  project, and Tutor field types; added five tests covering valid state,
+  missing nested data, wrong types, nested shape, and unknown-field
+  preservation. Help used: guided lesson, progressive debugging, and targeted
+  fixture corrections.
+- KIKO-015B: Injected a project-state path through save/load, corrected the
+  text-to-dictionary validation boundary, and returned the validated parsed
+  object. Help used: pair-programmed lesson and progressive debugging. The five
+  loading fixtures were agent-authored and are not learner competence evidence.
 
 These prove completed project steps. The related Python concepts are recorded
 as `assisted`, not independent or reliable.
@@ -80,6 +93,13 @@ as `assisted`, not independent or reliable.
   application package.
 - Kiko filesystem tests can now isolate private learner state from the real
   Application Support directory.
+- Kiko now rejects invalid project-state roots and unsupported schema versions
+  through one controlled domain error before deeper fields are inspected.
+- Kiko now validates the complete current project-state field shape while
+  preserving unknown non-conflicting fields for forward compatibility.
+- Kiko now enforces that validator at the real project-state loading boundary
+  and leaves invalid saved input unchanged; five pair-programmed loading tests
+  cover the integration.
 - The old syntax journal was migrated into the global personal reference.
 - The new Project Tutor implementation roadmap starts at Step 1 without
   resetting prior learning.
