@@ -2,9 +2,10 @@
 
 ## Dogfooding rule
 
-Project Tutor teaches the learner how to build Project Tutor. The learner writes
-all substantive application source code. Codex may inspect, run, explain, plan,
-and update Tutor state, but must not silently implement roadmap features.
+Project Tutor teaches the learner how to build Project Tutor. Kiko development
+uses the explicitly accepted hybrid modes in `EXECUTION_MODES.md`; this does not
+change the shipped product's read-only learner-source guarantee. Codex must not
+silently implement roadmap features or treat delegated work as learner competence.
 
 Use the shared `guided-project-tutor` skill and its project-context routing.
 
@@ -16,6 +17,12 @@ Accepted future checkpoints must already have an individual `ready` row in the
 final post-split section of `CHECKPOINT_SIZE_AUDIT.md`. Material replanning
 re-audits every final child before any lesson is presented; do not postpone
 normal checkpoint atomization until that checkpoint becomes active.
+
+Before every checkpoint lesson or implementation turn, read its row in
+`EXECUTION_MODES.md` and show the mode in the progress header. In
+`learner-owned` mode, Codex does not edit application source. In
+`pair-programmed` or `agent-delegated` mode, source edits require the mode's
+bounded workflow and never count as learner evidence by themselves.
 
 ## Context routing
 
@@ -36,6 +43,7 @@ Read these only when the task requires them:
 - `PRODUCT_SPEC.md` for user journeys, UX states, accessibility, or acceptance
 - `PLANNING_SPEC.md` for discovery, initialization, or material replanning
 - `CHECKPOINT_SIZE_AUDIT.md` for checkpoint-size review or atomicity changes
+- `EXECUTION_MODES.md` for checkpoint authorship, delegation, or evidence mode
 - `TUTOR_FEEDBACK.md` for Tutor-quality audit or improvement deduplication
 
 Read every selected file completely. Do not reload unrelated stable documents

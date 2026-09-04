@@ -255,7 +255,7 @@ Every implementation checkpoint contains:
 - prerequisites and earlier checkpoints it depends on
 - relevant knowledge the learner already has
 - genuinely new concepts and syntax
-- one bounded learner task
+- one bounded checkpoint task whose author follows the accepted execution mode
 - exact verification command or observable action
 - expected successful behavior
 - failure or edge case introduced by this checkpoint
@@ -274,7 +274,7 @@ Kiko asks Codex to split such checkpoints before presenting the plan.
 ### Checkpoint complexity budget
 
 For an implementation checkpoint, allow one primary product behavior, one main
-new mental model, one learner-owned responsibility change, and one primary
+new mental model, one bounded responsibility change, and one primary
 verification. Supporting syntax and edge-case assertions may remain together
 only when they test the same behavior.
 
@@ -301,7 +301,7 @@ per final ID; parent-only coverage does not pass.
 A final implementation checkpoint is lesson-ready only when a dry run can fill
 the complete `new_checkpoint` interaction without inventing information:
 
-- one observable outcome and one learner-owned responsibility boundary
+- one observable outcome and one responsibility boundary
 - one primary mental model with a bounded, explicit syntax/configuration list
 - one task whose clauses all produce the same outcome
 - one exact primary verification and expected result
@@ -319,6 +319,33 @@ readiness result is still applicable, but lesson time is not the normal point
 for discovering an oversized accepted checkpoint. A material scope,
 architecture, prerequisite, or learner-profile change invalidates affected rows
 and requires a visible re-audit before teaching them.
+
+### Optional hybrid execution-mode gate
+
+When the learner explicitly accepts hybrid development, every final pending
+checkpoint receives exactly one mode in `EXECUTION_MODES.md`:
+
+- `learner-owned` for first representative patterns and central learning goals
+- `pair-programmed` for risky boundaries that benefit from shared implementation
+- `agent-delegated` for repetitive variants, integration glue, or scaffolding
+  after the representative pattern exists
+- `acceptance-only` for decisions and release proof over existing behavior
+
+Mode assignment never changes checkpoint scope, ordering, prerequisites, or
+verification. It changes only who may author the bounded work and how evidence
+is interpreted. Agent-authored code is product progress after verification, not
+learner competence; a separate learner action is required for learning evidence.
+
+The stable checkpoint field remains named `Learner task` because it is the task
+presented in the learning journey. `EXECUTION_MODES.md` determines whether the
+learner authors it, shares it with Codex, reviews a delegated implementation, or
+performs acceptance only.
+
+The execution-mode table must contain every pending ID once in roadmap order.
+Completed checkpoints are removed from the active table during their verified
+handoff. A material replan reclassifies affected final children before work
+continues. Without explicit hybrid acceptance, the project defaults to the
+strict learner-owned workflow.
 
 ### Product increments
 

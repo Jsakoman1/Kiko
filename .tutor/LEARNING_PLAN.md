@@ -11,6 +11,9 @@ Every checkpoint specification uses the same fields required by
 new concepts/syntax, one learner task, exact verification, expected behavior,
 edge case, exclusions, and exit condition.
 
+Development authorship and delegation modes live separately in
+`EXECUTION_MODES.md`; they do not duplicate progress or checkpoint contracts.
+
 ## Current handoff
 
 - Active checkpoint: `KIKO-015` — Validate the project-state root and version.
@@ -28,6 +31,9 @@ edge case, exclusions, and exit condition.
   contract, and dogfood feedback systems are adopted.
 - Future-checkpoint readiness: all 151 pending checkpoints passed an individual
   post-split lesson dry run; KIKO-015 remains paused until the learner resumes it.
+- Hybrid execution: accepted for all pending work; active KIKO-015 is
+  `learner-owned`. Agent-written work may advance verified product progress but
+  never counts as learner competence by itself.
 - Blockers: none for `KIKO-015`.
 
 ## Release path

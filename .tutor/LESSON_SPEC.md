@@ -38,9 +38,14 @@ Every interaction begins with:
 ```text
 Step: <checkpoint ID and title>
 Status: <not started | in progress | needs revision | verified>
+Mode: <learner-owned | pair-programmed | agent-delegated | acceptance-only>
 Last verified: <checkpoint or observable behavior>
 Today: <purpose of this interaction>
 ```
+
+The mode comes from `EXECUTION_MODES.md`. It changes authorship and evidence
+handling, not the problem, success condition, syntax explanation, or exact
+verification fields.
 
 For the current Kiko handoff, a new lesson would begin conceptually as:
 
@@ -126,8 +131,10 @@ reference already provides a sufficient example.
 
 ### 7. Your task
 
-Give exactly one bounded application-source change for the learner. Name the
-file or location and behavior without supplying the complete solution.
+Give exactly one bounded checkpoint task. In `learner-owned` mode, name the
+learner's source change without supplying the complete solution. In hybrid
+modes, state the learner/agent portions or the delegated implementation and
+learner-review handoff defined by `EXECUTION_MODES.md`.
 
 ### 8. Verification
 
@@ -222,6 +229,7 @@ renders it:
 ```text
 interaction_type
 checkpoint: id, title, status, last_verified
+execution_mode
 purpose
 problem
 why_it_matters
@@ -252,13 +260,16 @@ remove, or reinterpret pedagogical decisions.
 
 - Exactly one interaction type is selected.
 - Progress matches durable project state.
+- Execution mode matches `EXECUTION_MODES.md` and the response respects its
+  authorship/evidence boundary.
 - Required fields are present and ordered.
 - A new checkpoint explains the problem and product reason before syntax.
 - Every construct used in examples and tasks is known or explained first.
 - Every configuration section, field, value type, and Kiko mapping is explained
   before use.
 - Only relevant known syntax is listed.
-- The learner receives one owned action and exact verification.
+- The response contains one bounded action/handoff and exact verification that
+  respects the active execution mode.
 - No unverified progress or competence update is claimed.
 - The response stops at the correct boundary.
 

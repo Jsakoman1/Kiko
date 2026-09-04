@@ -369,6 +369,33 @@ reasoning, secrets, full prompts, or source-code copies.
 - Project status: verified
 - Runtime status: planned in KIKO-032D
 
+### DF-016 — Strict learner-only authorship made delivery impractically slow
+
+- Date: 2026-09-04
+- Observation: The complete 168-checkpoint plan protects learning quality, but
+  requiring a separate learner-authored implementation cycle for all 151
+  pending checkpoints would delay the product and over-teach repetitive glue.
+- Contract/rule: Learning evidence must reflect learner action, while verified
+  product progress and code authorship may remain separate when the learner
+  explicitly accepts a bounded hybrid workflow.
+- Scope: learner-specific, Kiko project, reusable shared skill
+- Immediate recovery: Kept KIKO-015 paused and classified every pending
+  checkpoint before resuming implementation.
+- Shared-skill change: Added optional hybrid execution modes with strict
+  learner-owned default, bounded delegation, conservative evidence rules,
+  reusable project templates, context routing, and deterministic table
+  validation.
+- Project change: Added `EXECUTION_MODES.md`; Kiko lessons now show the mode and
+  project instructions enforce its source/evidence boundary.
+- Runtime/roadmap change: None; this controls how Kiko itself is developed and
+  does not weaken the shipped product's read-only learner-source promise.
+- Regression check: Validator requires every pending ID exactly once and in
+  roadmap order; delegated code cannot create learner competence evidence.
+- User decision: explicitly accepted
+- Skill status: verified
+- Project status: verified
+- Runtime status: not applicable
+
 ## Record template
 
 ### <FEEDBACK_ID> — <SHORT_TITLE>
